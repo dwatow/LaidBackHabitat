@@ -21,6 +21,6 @@ from laid_back_habitat.views import index, order_room
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^', index),
+    url(r'^$',index),
     url(r'^order_room/', order_room),
 ]
