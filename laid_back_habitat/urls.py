@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """laid_back_habitat URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -16,9 +17,10 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from laid_back_habitat.views import index
+from laid_back_habitat.views import index, order_room
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', index),
+    url(r'^order_room/', order_room),
 ]
