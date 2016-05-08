@@ -1,36 +1,39 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>訂房!!</title>
-            <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-            <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-            <script type="text/javascript">
-                $(function() {
-                    $("#datepicker1").datepicker({dateFormat:"yy-mm-dd",showMonthAfterYear:true}); 
-                });
-            </script>
-            <script type="text/javascript">
-                $(function() {
-                    $("#datepicker2").datepicker({dateFormat:"yy-mm-dd",showMonthAfterYear:true}); });
-                </script>
-            <style type="text/css">
-                #ui-datepicker-div a{
-                    text-decoration: none;
-                    padding: 4px;
-                }
-                #ui-datepicker-div{
-                    font-family: monospace;
-                }
-                .ui-icon.ui-icon-circle-triangle-e{ color: #c0c0c0; }
-                .ui-icon.ui-icon-circle-triangle-w{ color: #c0c0c0; }
-            </style>
-    </head>
-    <body>
-        <div align="center">什麼時候來過夜？</div>
-        <form method="post" action="/order_room/" align="center">
-            <input type="text" id="datepicker1" name="from" placeholder="從幾月幾號">
-            <input type="text" id="datepicker2" name="to" placeholder="到幾月幾號">
-            <button type="submit" name='ok'>訂房</button> 
-        </form>
-    </body>
+<head>
+	<title>訂房!!</title>
+	<style src="jquery-ui/jquery-ui.css"></style>
+	<style type="text/css">
+		#ui-datepicker-div a{
+			text-decoration: none;
+			padding: 4px;
+		}
+		#ui-datepicker-div{
+			font-family: monospace;
+		}
+		.ui-icon.ui-icon-circle-triangle-e{ color: #c0c0c0; }
+		.ui-icon.ui-icon-circle-triangle-w{ color: #c0c0c0; }
+	</style>
+</head>
+<body>
+	<input type="text" id="datepicker1" name="from" placeholder="從幾月幾號">
+	<input type="text" id="datepicker2" name="to" placeholder="到幾月幾號">
+	<button onclick="orderRoom()">訂房</button> 
+
+	<div align="right" id="reault_order"></div>
+
+	<script src="jquery-1.12.3.min.js"></script>
+	<script src="jquery-ui/jquery-ui.min.js"></script>
+	<script src="script.js"></script>
+	<script type="text/javascript">
+		$(function() {
+			$("#datepicker1").datepicker({dateFormat:"yy-mm-dd",showMonthAfterYear:true}); 
+		});
+	</script>
+	<script type="text/javascript">
+		$(function() {
+			$("#datepicker2").datepicker({dateFormat:"yy-mm-dd",showMonthAfterYear:true}); 
+		});
+	</script>
+</body>
 </html>
