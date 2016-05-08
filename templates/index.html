@@ -2,49 +2,35 @@
 <html>
     <head>
         <title>訂房!!</title>
+            <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+            <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+            <script type="text/javascript">
+                $(function() {
+                    $("#datepicker1").datepicker({dateFormat:"yy-mm-dd",showMonthAfterYear:true}); 
+                });
+            </script>
+            <script type="text/javascript">
+                $(function() {
+                    $("#datepicker2").datepicker({dateFormat:"yy-mm-dd",showMonthAfterYear:true}); });
+                </script>
+            <style type="text/css">
+                #ui-datepicker-div a{
+                    text-decoration: none;
+                    padding: 4px;
+                }
+                #ui-datepicker-div{
+                    font-family: monospace;
+                }
+                .ui-icon.ui-icon-circle-triangle-e{ color: #c0c0c0; }
+                .ui-icon.ui-icon-circle-triangle-w{ color: #c0c0c0; }
+            </style>
     </head>
     <body>
         <div align="center">什麼時候來過夜？</div>
-        <div align="center">
-            <from method="post" action="/order_room/">
-                <select name="year">
-                    <option value="2016">2016</option>
-                    <option value="2017">2017</option>
-                    <option value="2018">2018</option>
-                    <option value="2019">2019</option>
-                    <option value="2020">2020</option>
-                    <option value="2021">2021</option>
-                </select>
-                <select name="month">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
-                    <option value="11">11</option>
-                    <option value="12">12</option>
-                </select>
-                <select name="day">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
-                    <option value="11">11</option>
-                    <option value="...">...</option>
-                </select>
-                <button type="submit" name='ok'>訂房</button> 
-            </from>
-        </div>
+        <form method="post" action="/order_room/" align="center">
+            <input type="text" id="datepicker1" name="from" placeholder="從幾月幾號">
+            <input type="text" id="datepicker2" name="to" placeholder="到幾月幾號">
+            <button type="submit" name='ok'>訂房</button> 
+        </form>
     </body>
 </html>
