@@ -3,27 +3,27 @@ function orderRoom() {
 	var to_date = new Date(document.getElementById("datepicker2").value);
 	var diff_day = DiffDay(from_date, to_date);
 
-	if (from_date && to_date) {
+	if (from_date != "Invalid Date" && to_date != "Invalid Date") {
 		var desctipt = "客人您於" + from_date.toDateString() + "到" + to_date.toDateString() + "，有訂房。<br />祝你這" + (diff_day+1) + "天玩得開心。"
-	    document.getElementById("reault_order").innerHTML = desctipt;  
+	    document.getElementById("reault_order").innerHTML = desctipt;
 	}
-	else if (from_date.isRight && !to_date.isRight) {
+	else if (from_date == "Invalid Date" && to_date != "Invalid Date") {
 		var desctipt = "您要玩幾到哪一天呢？";
-    	document.getElementById("reault_order").innerHTML = desctipt;  
+    	document.getElementById("reault_order").innerHTML = desctipt;
 	}
-	else if (!from_date.isRight && to_date.isRight) {
+	else if (from_date != "Invalid Date" && to_date == "Invalid Date") {
 		var desctipt = "您要從哪一天開始玩呢？";
-    	document.getElementById("reault_order").innerHTML = desctipt;  
+    	document.getElementById("reault_order").innerHTML = desctipt;
 	}
 	else
 	{
 		var desctipt = "什麼時候來過夜？";
-    	document.getElementById("reault_order").innerHTML = desctipt;  
+    	document.getElementById("reault_order").innerHTML = desctipt;
 	}
 };
 
 function DiffDay(from_date, to_date) {
-	return  (to_date.getTime()-from_date.getTime())/24/60/60/1000; 
+	return  (to_date.getTime()-from_date.getTime())/24/60/60/1000;
 }
 
 // function date (yyyy_mm_dd) {
