@@ -6,6 +6,15 @@ import datetime
 
 def index(request):
     return render_to_response('index.html',locals())
+
+def calTotalDays(request):
+    return render_to_response('script.js',locals())
+
+def jquery(request):
+    return render_to_response('jquery-1.12.3.min.js',locals())
+
+def jqueryui(request):
+    return render_to_response('jquery-ui/jquery-ui.min.js',locals())
     
 def order_room(request):
     from_str = request.POST.get('from', '')
