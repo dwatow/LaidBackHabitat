@@ -17,13 +17,12 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from laid_back_habitat.views import index, order_room, jquery, jqueryui, calTotalDays
+from laid_back_habitat.views import index, order_room, jqueryui, calTotalDays
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$',index),
     url(r'^order_room/', order_room),
-    url(r'^jquery/', jquery),
     url(r'^jqueryui/', jqueryui),
     url(r'^calTotalDays/', calTotalDays),
 ]
