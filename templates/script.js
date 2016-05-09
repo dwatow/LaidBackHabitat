@@ -4,7 +4,7 @@ function orderRoom() {
 	var diff_day = DiffDay(from_date, to_date);
 
 	if (from_date != "Invalid Date" && to_date != "Invalid Date") {
-		var desctipt = "客人您於" + from_date.toDateString() + "到" + to_date.toDateString() + "，有訂房。<br />祝你這" + (diff_day+1) + "天玩得開心。"
+		var desctipt = "客人，您於" + MyDateFormat(from_date) + "到" + MyDateFormat(to_date) + "有訂房。<br />祝你這" + diff_day + "天玩得開心。"
 	    document.getElementById("reault_order").innerHTML = desctipt;
 	}
 	else if (from_date == "Invalid Date" && to_date != "Invalid Date") {
@@ -22,9 +22,13 @@ function orderRoom() {
 	}
 };
 
+function MyDateFormat (date) {
+	return date.getUTCFullYear() + "年" + (date.getUTCMonth()+1) + "月" + date.getUTCDate() + "日";
+};
+
 function DiffDay(from_date, to_date) {
-	return  (to_date.getTime()-from_date.getTime())/24/60/60/1000;
-}
+	return  ((to_date.getTime()-from_date.getTime())/24/60/60/1000)+1;
+};
 
 // function date (yyyy_mm_dd) {
 // 	if (typeof yyyy_mm_dd === "string" && yyyy_mm_dd.length > 1){
