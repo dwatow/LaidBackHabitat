@@ -17,12 +17,12 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from laid_back_habitat.views import index, order_room, jqueryui, calTotalDays
+from laid_back_habitat.views import index
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$',index),
-    url(r'^order_room/', order_room),
-    url(r'^jqueryui/', jqueryui),
-    url(r'^calTotalDays/', calTotalDays),
-]
+    #url(r'^order_room/', order_room),
+]# + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
