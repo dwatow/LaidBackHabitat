@@ -6,13 +6,7 @@ import datetime
 
 def index(request):
     return render_to_response('index.html',locals())
-
-def calTotalDays(request):
-    return render_to_response('script.js',locals())
-
-def jqueryui(request):
-    return render_to_response('jquery-ui/jquery-ui.min.js',locals())
-    
+'''
 def order_room(request):
     from_str = request.POST.get('from', '')
     to_str = request.POST.get('to', '')
@@ -28,3 +22,4 @@ def order_room(request):
     else:
         return HttpResponse('您要兩個時都輸入，才能知道您訂房的狀況。')
         #return HttpResponseRedirect('/')
+'''        

@@ -52,7 +52,9 @@ MIDDLEWARE_CLASSES = [
 ]
 
 ROOT_URLCONF = 'laid_back_habitat.urls'
-
+STATICFILES_DIRS = [
+        os.path.join(BASE_DIR,  'static'),
+    ]
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -107,7 +109,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Taipei'
 
 USE_I18N = True
 
