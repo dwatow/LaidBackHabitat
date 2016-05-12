@@ -4,7 +4,12 @@ function orderRoom() {
 	var diff_day = DiffDay(from_date, to_date);
 
 	if (from_date != "Invalid Date" && to_date != "Invalid Date") {
-		var desctipt = "客人，您於" + MyDateFormat(from_date) + "到" + MyDateFormat(to_date) + "有訂房。<br />祝你這" + diff_day + "天玩得開心。"
+		if (diff_day > 1) {
+			var desctipt = "歡迎您，於" + MyDateFormat(from_date) + "到" + MyDateFormat(to_date) + "來玩" + diff_day + "天。<br />祝您玩得開心。"
+		}
+		else {
+			var desctipt = "歡迎您，於" + MyDateFormat(from_date) + "到" + MyDateFormat(to_date) + "來玩" + diff_day + "天。<br/>不跨天數，無須訂房唷！<br />祝您玩得開心。"
+		}
 	    document.getElementById("reault_order").innerHTML = desctipt;
 	}
 	else if (from_date == "Invalid Date" && to_date != "Invalid Date") {
@@ -17,7 +22,7 @@ function orderRoom() {
 	}
 	else
 	{
-		var desctipt = "什麼時候來過夜？";
+		var desctipt = "什麼時候過來玩？";
     	document.getElementById("reault_order").innerHTML = desctipt;
 	}
 };
