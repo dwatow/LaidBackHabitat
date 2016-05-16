@@ -7,7 +7,7 @@ class Customer(models.Model):
     c_id = models.CharField(max_length=10, primary_key=True)
     c_name = models.CharField(max_length=255)
     c_phone = models.CharField(max_length=10)
-    c_address = models.CharField(max_length=255, blank=False)
+    c_address = models.CharField(max_length=255, blank=True)
 
     def __str__(self):              # __unicode__ on Python 2
         return "Customer: %s, %s" % (self.c_id, self.c_name)
@@ -68,11 +68,10 @@ class Order(models.Model):
 class RoomsOfOrder(models.Model):
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
     room = models.ForeignKey(Room, on_delete=models.SET_NULL, null=True)
-    estimate_checkin_date = models.DateTimeField()
-    estimate_checkout_date = models.DateTimeField()
+    over_night_date = models.DateTimeField()
 
     def __str__(self):              # __unicode__ on Python 2
-        return "RoomsOfOrder: %s, %s, %s, %s" % (self.order, self.room, self.estimate_checkin_date, self.estimate_checkout_date)
+        return "RoomsOfOrder: %s, %s, %s" % (self.order, self.room, self.over_night_date)
 
 class Payment(models.Model):
     # p_id = models.IntegerField(default=0)

@@ -5,7 +5,7 @@ from models import Customer, Employee, Cleaner, Order, Payment, Service, RoomTyp
 
 class CustomerAdmin(admin.ModelAdmin):
 	list_display = ('c_id', 'c_name', 'c_phone', 'c_address')
-
+	
 class EmployeeAdmin(admin.ModelAdmin):
 	list_display = ('id', 'e_name', 'e_phone', 'e_address')
 
@@ -14,15 +14,18 @@ class CleanerAdmin(admin.ModelAdmin):
 
 class OrderAdmin(admin.ModelAdmin):
 	list_display = ('id', 'o_date', 'customer', 'employee')
+	date_hierarchy = 'o_date'
 
 class PaymentAdmin(admin.ModelAdmin):
 	list_display = ('id', 'p_money', 'p_account', 'p_date', 'order')
+	date_hierarchy = 'p_date'
 
 class ServiceAdmin(admin.ModelAdmin):
 	list_display = ('id', 's_bike', 's_breakfast', 's_gym', 'order')
 
 class RoomsOfOrderAdmin(admin.ModelAdmin):
-	list_display = ('order', 'room', 'estimate_checkin_date', 'estimate_checkout_date')
+	list_display = ('order', 'room', 'over_night_date')
+	date_hierarchy = 'over_night_date'
 
 class RoomTypeAdmin(admin.ModelAdmin):
 	list_display = ('rt_name', 'rt_money')
@@ -32,7 +35,8 @@ class RoomAdmin(admin.ModelAdmin):
 
 class CleanInfoAdmin(admin.ModelAdmin):
 	list_display = ('id', 'cl_date', 'cleaner', 'room')
-
+	date_hierarchy = 'cl_date'
+	fields = ('cleaner', 'room')
 
 admin.site.register(Customer, CustomerAdmin)
 admin.site.register(Employee, EmployeeAdmin)
