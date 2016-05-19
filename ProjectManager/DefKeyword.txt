@@ -1,6 +1,6 @@
-ÃöÁä¦r©w¸q:
-Employee ªA°È¥Í
-Customer ®È«È
-Cleaner  ©Ğ°È­û
-RoomType ©Ğ«¬
-Room     ©Ğ¶¡
+ï»¿é—œéµå­—å®šç¾©:
+Employee æœå‹™ç”Ÿ
+Customer æ—…å®¢
+Cleaner  æˆ¿å‹™å“¡
+RoomType æˆ¿å‹
+Room     æˆ¿é–“
