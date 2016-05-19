@@ -56,6 +56,7 @@ ROOT_URLCONF = 'laid_back_habitat.urls'
 STATICFILES_DIRS = [
         os.path.join(BASE_DIR,  'static'),
     ]
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
