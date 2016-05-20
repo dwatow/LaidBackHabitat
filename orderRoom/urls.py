@@ -4,4 +4,10 @@ from . import views
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^(?P<link_value>[0-9]+)/$', views.test, name='test'),
+    #order room
+    url(r'^reservations/$', views.reservations, name='reservations'),
+    #checkout
+    url(r'^checkout/$', views.checkout, name='checkout'),
+    #checkin
+    url(r'^checkin/$', views.checkin, name='checkin'),
 ]

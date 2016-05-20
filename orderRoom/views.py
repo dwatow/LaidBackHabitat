@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.http import Http404, HttpResponse
 from django.shortcuts import render, render_to_response, get_list_or_404
-from .models import Employee
+from . import models
 import time
 import datetime
 
@@ -12,6 +12,42 @@ def index(request):
 def test(request, link_value):
     display_text = 'AAAAA'
     return render_to_response('test.html', locals())
+
+def reservations(request):
+    if 'customer_id' in request.GET:
+        cid = request.GET['customer_id']
+        customer = models.Customer.objects.filter(c_id=cid)[0]
+        return HttpResponse(customer.c_name + 'is a customer<br />query any thing');
+    else:
+        raise Http404("data does not exist")
+
+def checkout(request):
+    if 'cleaner_id' in request.GET:
+        id = request.GET['cleaner_id']
+        obj = models.Cleaner.objects.filter(id=id)[0]
+        return HttpResponse(obj.cl_name + 'is a cleaner<br /> query be able to clean room');
+
+    if 'employee_id' in request.POST:
+        id = request.GET['employee_id']
+        employee = models.Employee.objects.filter(id=id)[0]
+        return HttpResponse(employee.e_name + 'is a employee<br />checkout for customer<br />change order status');
+
+def checkin(request):
+    if 'employee_id' in request.GET:
+        id = request.GET['employee_id']
+        employee = models.Employee.objects.filter(id=id)[0]
+        return HttpResponse(employee.e_name + 'is a employee<br />query can checkin room');
+
+    if 'employee_id' in request.POST:
+        id = request.GET['employee_id']
+        employee = models.Employee.objects.filter(id=id)[0]
+        return HttpResponse(employee.e_name + 'is a employee<br />get pay from customer<br />change order status');
+    elif 'cleaner_id' in request.POST:
+        id = request.GET['cleaner_id']
+        obj = models.Cleaner.objects.filter(id=id)[0]
+        return HttpResponse(obj.cl_name + 'is a cleaner<br />clear room be used checkin');
+
+
 
 '''
 def order_room(request):
