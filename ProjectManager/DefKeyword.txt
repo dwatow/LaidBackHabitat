@@ -5,3 +5,4 @@ Cleaner  房務員
 RoomType 房型
 Room     房間
 Order    訂房內容
+Service  加值服務
