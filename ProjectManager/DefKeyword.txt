@@ -4,3 +4,4 @@ Customer 旅客
 Cleaner  房務員
 RoomType 房型
 Room     房間
+Order    訂房內容
