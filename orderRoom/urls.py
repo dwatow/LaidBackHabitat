@@ -3,9 +3,11 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url(r'^(?P<link_value>[0-9]+)/$', views.test, name='test'),
+    url(r'^(?P<link_value>[0-9]+)/$', views.test, name='test0'),
+    url(r'^test/$', views.test, name='test'),
+    url(r'^test/testGet/$', views.testGet, name='testGet'),
     #order room
-    url(r'^reservations/$', views.reservations, name='reservations'),
+    url(r'^booking_room/$', views.booking_room, name='booking_room'),
     #checkout
     url(r'^checkout/$', views.checkout, name='checkout'),
     #checkin

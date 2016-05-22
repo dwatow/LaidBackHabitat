@@ -4,6 +4,14 @@
 	<title>測試!!</title>
 </head>
 <body>
-    <a href="{% url 'test' link_value %}">{{ display_text }}</a>
+    <form method="get" action="testGet" >
+       <input type="text" name="good[0][room]" value="room1"/><br />
+       <input type="text" name="good[0][from]" value="2016-06-01"/><br />
+       <input type="text" name="good[0][to]" value="2016-06-07"/><br />
+       <input type="text" name="good[1][room]" value="room2"/><br />
+       <input type="text" name="good[2][from]" value="2016-07-01"/><br />
+       <input type="text" name="good[2][to]" value="2016-07-08"/><br />
+       <input type="submit" value="submit"/>
+    </form>
 </body>
 </html>

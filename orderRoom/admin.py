@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from models import Customer, Employee, Cleaner, Order, Payment, Service, RoomType, Room, CleanInfo, RoomsOfOrder
+from models import Customer, Employee, Cleaner, Order, Payment, Service, RoomType, Room, CleanInfo, BookingRoom
 
 class CustomerAdmin(admin.ModelAdmin):
 	list_display = ('c_id', 'c_name', 'c_phone', 'c_address')
@@ -13,7 +13,7 @@ class CleanerAdmin(admin.ModelAdmin):
 	list_display = ('id', 'cl_name', 'cl_phone', 'cl_address')
 
 class OrderAdmin(admin.ModelAdmin):
-	list_display = ('id', 'o_date', 'customer', 'employee')
+	list_display = ('id', 'o_status', 'o_date', 'customer', 'employee')
 	date_hierarchy = 'o_date'
 
 class PaymentAdmin(admin.ModelAdmin):
@@ -23,7 +23,7 @@ class PaymentAdmin(admin.ModelAdmin):
 class ServiceAdmin(admin.ModelAdmin):
 	list_display = ('id', 's_bike', 's_breakfast', 's_gym', 'order')
 
-class RoomsOfOrderAdmin(admin.ModelAdmin):
+class BookingRoomAdmin(admin.ModelAdmin):
 	list_display = ('order', 'room', 'over_night_date')
 	date_hierarchy = 'over_night_date'
 
@@ -44,7 +44,7 @@ admin.site.register(Cleaner, CleanerAdmin)
 admin.site.register(Order, OrderAdmin)
 admin.site.register(Payment, PaymentAdmin)
 admin.site.register(Service, ServiceAdmin)
-admin.site.register(RoomsOfOrder, RoomsOfOrderAdmin)
+admin.site.register(BookingRoom, BookingRoomAdmin)
 admin.site.register(RoomType, RoomTypeAdmin)
 admin.site.register(Room, RoomAdmin)
 admin.site.register(CleanInfo, CleanInfoAdmin)

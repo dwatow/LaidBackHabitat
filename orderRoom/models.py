@@ -53,19 +53,20 @@ class Room (models.Model):
 class Order(models.Model):
     # p_id = models.IntegerField(default=0)
     o_date = models.DateTimeField()
+    o_status = models.CharField(max_length=10)
+    #Booking > Deposit > Checkout
     #c_id = models.CharField(max_length=10)
     #e_id = models.CharField(max_length=255)
     #r_id = models.CharField(max_length=255)
-
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=False)
-    employee = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True, blank=False)
+    employee = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True, blank=True)
     # Room = models.ForeignKey(Room)
     
     def __str__(self):              # __unicode__ on Python 2
         # return "Order: %s" % (self.o_date)
-        return "Order: %s, (%s)%s, (%s)%s" % (self.o_date, self.customer.c_id, self.customer.c_name, self.employee.id, self.employee.e_name)
+        return "Order: %s, (%s)%s" % (self.o_date, self.customer.c_id, self.customer.c_name)
 
-class RoomsOfOrder(models.Model):
+class BookingRoom(models.Model):
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
     room = models.ForeignKey(Room, on_delete=models.SET_NULL, null=True)
     over_night_date = models.DateTimeField()

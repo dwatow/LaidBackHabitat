@@ -4,22 +4,108 @@ from django.shortcuts import render, render_to_response, get_list_or_404
 from . import models
 import time
 import datetime
+from django.core.exceptions import ObjectDoesNotExist
+
+
+class BookingUnit:
+    def __init__(self, str_room_from_data_to_data):
+        self.room_name, from_date, to_date = str_room_from_data_to_data.split(':')
+        
+        from_year, from_month, from_day = from_date.split('-')
+        self.from_datetime = datetime.datetime(int(from_year), int(from_month), int(from_day))  
+    
+        to_year, to_month, to_day = to_date.split('-')
+        self.to_datetime = datetime.datetime(int(to_year), int(to_month), int(to_day))  
+
+    def total_day(self):
+        return abs((self.to_datetime - self.from_datetime).days)+1
+
+    def every_night(self):
+        every_night_list=[]
+        for day in range(self.total_day()):
+            curr_datetime = self.from_datetime + datetime.timedelta(days=day)
+            every_night_list.append(curr_datetime)
+        return every_night_list
+
+
 
 # Create your views here.
 def index(request):
     return render_to_response('index.html', locals())
 
-def test(request, link_value):
-    display_text = 'AAAAA'
+def test(request):
     return render_to_response('test.html', locals())
 
-def reservations(request):
-    if 'customer_id' in request.GET:
-        cid = request.GET['customer_id']
-        customer = models.Customer.objects.filter(c_id=cid)[0]
-        return HttpResponse(customer.c_name + 'is a customer<br />query any thing');
-    else:
-        raise Http404("data does not exist")
+def testGet(request):
+    request_get = request.GET;
+    good_list = request_get.getlist('good[]')
+    str_out=''
+    for booking in good_list:
+        str_out+=booking['room'] + '<br />'
+
+    return HttpResponse(good_list)
+
+def booking_room(request):
+    post_data = request.GET
+    '''
+    if 'booking_data' in post_data:
+        test = post_data['booking_data']
+        return HttpResponse(test);
+    #c_id = post_data['customer_id']
+    #customer = models.Customer.objects.filter(c_id=c_id)[0];
+    
+    #return HttpResponse(str(original_from.date()) + ", " + str(total_day));
+    #return HttpResponse(str(original_from.date()) + ", " + str(next_from.date()));
+    '''
+    if 'customer_id' and \
+       'customer_name' and \
+       'customer_phone' and \
+       'customer_address' in post_data and \
+       'order_date' and\
+       'booking[]' in post_data:
+        
+        target_customer=obj_cus = models.Customer()
+        try:
+            old_customer = models.Customer.objects.filter(\
+                c_id=post_data['customer_id'])
+            old_customer.update(
+                c_phone = post_data['customer_phone'], \
+                c_address = post_data['customer_address'])
+            target_customer=old_customer[0]
+        except (ObjectDoesNotExist, IndexError):
+            new_customer = models.Customer.objects.create(\
+                c_id=post_data['customer_id'], 
+                c_name=post_data['customer_name'], 
+                c_phone=post_data['customer_phone'], 
+                c_address=post_data['customer_address'])
+            target_customer=new_customer
+
+
+        new_order = models.Order.objects.create(
+            o_date=post_data['order_date'],
+            o_status='Booking',
+            customer=target_customer)
+        
+        #booking['room_name:yyyy-mm-dd:yyyy-mm-dd']
+        booking_list = post_data.getlist('booking[]')
+        for str_room_from_to in booking_list:
+            unit = BookingUnit(str_room_from_to)
+            
+            try:
+                sel_room = models.Room.objects.filter(r_name=unit.room_name)[0]
+            except (ObjectDoesNotExist, IndexError):
+                raise Http404("room does not exist")
+                
+            every_night = unit.every_night()
+            for night_datetime in every_night:
+                models.BookingRoom.objects.create(\
+                    over_night_date=night_datetime,\
+                    order=new_order, \
+                    room=sel_room)
+    
+    return HttpResponse(target_customer.c_name + 'is a customer<br />query any thing');
+    #else:
+    #    raise Http404("data does not exist")
 
 def checkout(request):
     if 'cleaner_id' in request.GET:
