@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from models import Customer, Employee, Cleaner, Order, Payment, Service, RoomType, Room, CleanInfo, BookingRoom
+from . import models
 
 class CustomerAdmin(admin.ModelAdmin):
 	list_display = ('c_id', 'c_name', 'c_phone', 'c_address')
@@ -38,13 +38,13 @@ class CleanInfoAdmin(admin.ModelAdmin):
 	date_hierarchy = 'cl_date'
 	fields = ('cleaner', 'room')
 
-admin.site.register(Customer, CustomerAdmin)
-admin.site.register(Employee, EmployeeAdmin)
-admin.site.register(Cleaner, CleanerAdmin)
-admin.site.register(Order, OrderAdmin)
-admin.site.register(Payment, PaymentAdmin)
-admin.site.register(Service, ServiceAdmin)
-admin.site.register(BookingRoom, BookingRoomAdmin)
-admin.site.register(RoomType, RoomTypeAdmin)
-admin.site.register(Room, RoomAdmin)
-admin.site.register(CleanInfo, CleanInfoAdmin)
+admin.site.register(models.Customer, CustomerAdmin)
+admin.site.register(models.Employee, EmployeeAdmin)
+admin.site.register(models.Cleaner, CleanerAdmin)
+admin.site.register(models.Order, OrderAdmin)
+admin.site.register(models.Payment, PaymentAdmin)
+admin.site.register(models.Service, ServiceAdmin)
+admin.site.register(models.BookingRoom, BookingRoomAdmin)
+admin.site.register(models.RoomType, RoomTypeAdmin)
+admin.site.register(models.Room, RoomAdmin)
+admin.site.register(models.CleanInfo, CleanInfoAdmin)
