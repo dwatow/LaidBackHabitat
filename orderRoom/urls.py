@@ -6,6 +6,8 @@ urlpatterns = [
     url(r'^(?P<link_value>[0-9]+)/$', views.test, name='test0'),
     url(r'^test/$', views.test, name='test'),
     url(r'^test/testGet/$', views.testGet, name='testGet'),
+    #query room
+    url(r'^query_room/$', views.query_room, name='query_room'),
     #order room
     url(r'^booking_room/$', views.booking_room, name='booking_room'),
     #checkout

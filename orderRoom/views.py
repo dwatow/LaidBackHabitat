@@ -45,6 +45,32 @@ def testGet(request):
 
     return HttpResponse(good_list)
 
+
+
+def query_room(request):
+    curr_date = request.GET['today']
+    
+    curr_year, curr_month, curr_day = curr_date.split('-')
+    curr_datetime = datetime.datetime(int(curr_year), int(curr_month), int(curr_day))  
+
+    room_type_list = models.RoomType.objects.all()
+    room_histogram={}
+    for type in room_type_list:
+        room_histogram[type.rt_name] = 0
+    
+    room_list = models.Room.objects.all()
+    for room in room_list:
+        room_histogram[room.room_type.rt_name] += 1
+    
+    booking_list = models.BookingRoom.objects.filter(over_night_date=curr_datetime)
+    for booking_room in booking_list:
+        curr_room_type = booking_room.room.room_type
+        room_histogram[curr_room_type.rt_name] -= 1
+        if room_histogram[curr_room_type.rt_name] < 0:
+            room_histogram[curr_room_type.rt_name] = 0
+    
+    return render_to_response('BookingList.html', locals())
+
 def booking_room(request):
     post_data = request.GET
     '''
