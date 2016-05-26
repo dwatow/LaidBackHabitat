@@ -2,5 +2,5 @@
 http://opencourse.ndhu.edu.tw/mod/folder/view.php?id=1097
 
 開發環境 http://c9.io
-語言版本: python 2.7
+語言版本: python 3.5
 framework版本: Django 1.9
