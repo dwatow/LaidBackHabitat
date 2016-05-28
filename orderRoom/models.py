@@ -10,7 +10,7 @@ class Customer(models.Model):
     c_address = models.CharField(max_length=255, blank=True)
 
     def __str__(self):              # __unicode__ on Python 2
-        return "Customer: %s, %s" % (self.c_id, self.c_name)
+        return "%s, %s" % (self.c_id, self.c_name)
 
 class Employee(models.Model):
     # e_id = models.IntegerField(default=0)
@@ -19,7 +19,7 @@ class Employee(models.Model):
     e_address = models.CharField(max_length=255, blank=False)
 
     def __str__(self):              # __unicode__ on Python 2
-        return "Employee: %s" % (self.e_name)
+        return "%s" % (self.e_name)
 
 class Cleaner(models.Model):
     # cl_id = models.IntegerField(default=0)
@@ -28,7 +28,7 @@ class Cleaner(models.Model):
     cl_address = models.CharField(max_length=255, blank=False)
 
     def __str__(self):              # __unicode__ on Python 2
-        return "Cleaner: %s" % (self.cl_name)
+        return "%s" % (self.cl_name)
 
 class RoomType(models.Model):
     # rt_id = models. CharField(max_length=255)
@@ -36,7 +36,7 @@ class RoomType(models.Model):
     rt_money = models.IntegerField(default=0)
 
     def __str__(self):              # __unicode__ on Python 2
-        return "RoomType: %s, %s" % (self.rt_name, self.rt_money)
+        return "%s, %s" % (self.rt_name, self.rt_money)
 
 class Room (models.Model):
     # r_id = models.CharField(max_length=255)
@@ -48,7 +48,7 @@ class Room (models.Model):
     # cleaner = models.ManyToManyField(Cleaner)
 
     def __str__(self):              # __unicode__ on Python 2
-        return "Room: %s, %s" % (self.r_name, self.room_type.rt_name)
+        return "%s, %s" % (self.r_name, self.room_type.rt_name)
 
 class Order(models.Model):
     # p_id = models.IntegerField(default=0)
@@ -64,7 +64,7 @@ class Order(models.Model):
     
     def __str__(self):              # __unicode__ on Python 2
         # return "Order: %s" % (self.o_date)
-        return "Order: %s, (%s)%s" % (self.o_date, self.customer.c_id, self.customer.c_name)
+        return "%s, (%s)%s" % (self.o_date.date(), self.customer.c_id, self.customer.c_name)
 
 class BookingRoom(models.Model):
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
@@ -72,7 +72,7 @@ class BookingRoom(models.Model):
     over_night_date = models.DateTimeField()
 
     def __str__(self):              # __unicode__ on Python 2
-        return "RoomsOfOrder: %s, %s, %s" % (self.order, self.room, self.over_night_date)
+        return "%s, %s, %s" % (self.order, self.room, self.over_night_date.date())
 
 class Payment(models.Model):
     # p_id = models.IntegerField(default=0)
@@ -83,7 +83,7 @@ class Payment(models.Model):
     order = models.OneToOneField(Order, on_delete=models.SET_NULL, null=True)
     
     def __str__(self):              # __unicode__ on Python 2
-        return "Payment: %s, %s, %s, %s" % (self.p_account, self.p_money, self.p_date, self.order)
+        return "%s, %s, %s, %s" % (self.p_account, self.p_money, self.p_date, self.order)
 
 class Service(models.Model):
     # s_id = models.IntegerField(default=0)
@@ -94,7 +94,7 @@ class Service(models.Model):
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):              # __unicode__ on Python 2
-        return "Service: %s, %s, %s, %s" % (self.s_bike, self.s_breakfast, self.s_gym, self.order)
+        return "%s, %s, %s, %s" % (self.s_bike, self.s_breakfast, self.s_gym, self.order)
 
 class CleanInfo(models.Model):
     # clinfo_id = models.IntegerField(default=0)
@@ -106,4 +106,4 @@ class CleanInfo(models.Model):
     room = models.ForeignKey(Room, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):              # __unicode__ on Python 2
-        return "CleanInfo: %s, (%s)%s, %s" % (self.cl_date, self.cleaner.id, self.cleaner.cl_name, self.room.r_name)
+        return "%s, (%s)%s, %s" % (self.cl_date, self.cleaner.id, self.cleaner.cl_name, self.room.r_name)

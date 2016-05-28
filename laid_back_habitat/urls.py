@@ -19,11 +19,14 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
+from . import views
 
 
 urlpatterns = [
     url(r'^', include('orderRoom.urls')),
     url(r'^admin/', admin.site.urls),
-    #url(r'^orderRoom/', include('orderRoom.urls')),
-    #url(r'^order_room/', order_room),
+    url(r'^$', views.index, name='index'),
+    url(r'^(?P<link_value>[0-9]+)/$', views.test, name='test0'),
+    url(r'^test/$', views.test, name='test'),
+    url(r'^test/testGet/$', views.testGet, name='testGet'),
 ]# + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

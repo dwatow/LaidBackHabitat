@@ -2,56 +2,46 @@
 from django.http import Http404, HttpResponse
 from django.shortcuts import render, render_to_response, get_list_or_404
 from . import models
-import time
-import datetime
+from .MyLib import MyDateTime
 from django.core.exceptions import ObjectDoesNotExist
 
+class DateTimeHistogram:
+    def __init__(self, room_type_name, str_from_date, str_to_date):
+        self.room_type_name = room_type_name
+        self.from_date = MyDateTime(str_from_date)
+        self.to_date = MyDateTime(str_to_date)
+        self.empty_room_num = 0
+
+        room_list = models.BookingRoom.objects.filter(rt_name=self.room_name)
+        
+        days_list = self.from_date.comprise_everyday(self.to_date)
+        for day in days_list:
+            today = MyDateTime(day)
+            today_booking = models.BookingRoom.objects.filter(over_night_date=today.datetime())
+            
 
 class BookingUnit:
+    #room:yyyy_mm_dd:yyyy_mm_dd
     def __init__(self, str_room_from_data_to_data):
         self.room_name, from_date, to_date = str_room_from_data_to_data.split(':')
+        self.from_datetime = MyDateTime(from_date)
+        self.to_datetime = MyDateTime(to_date)
         
-        from_year, from_month, from_day = from_date.split('-')
-        self.from_datetime = datetime.datetime(int(from_year), int(from_month), int(from_day))  
-    
-        to_year, to_month, to_day = to_date.split('-')
-        self.to_datetime = datetime.datetime(int(to_year), int(to_month), int(to_day))  
-
     def total_day(self):
-        return abs((self.to_datetime - self.from_datetime).days)+1
+        return self.from_datetime.comprise_between(self.to_datetime)
 
     def every_night(self):
-        every_night_list=[]
-        for day in range(self.total_day()):
-            curr_datetime = self.from_datetime + datetime.timedelta(days=day)
-            every_night_list.append(curr_datetime)
-        return every_night_list
+        return self.from_datetime.comprise_everyday(self.to_datetime)
 
 
 
 # Create your views here.
-def index(request):
-    return render_to_response('index.html', locals())
-
-def test(request):
-    return render_to_response('test.html', locals())
-
-def testGet(request):
-    request_get = request.GET;
-    good_list = request_get.getlist('good[]')
-    str_out=''
-    for booking in good_list:
-        str_out+=booking['room'] + '<br />'
-
-    return HttpResponse(good_list)
-
 
 
 def query_room(request):
     curr_date = request.GET['today']
     
-    curr_year, curr_month, curr_day = curr_date.split('-')
-    curr_datetime = datetime.datetime(int(curr_year), int(curr_month), int(curr_day))  
+    curr_datetime = MyDateTime(curr_date) 
 
     room_type_list = models.RoomType.objects.all()
     room_histogram={}
@@ -70,6 +60,9 @@ def query_room(request):
             room_histogram[curr_room_type.rt_name] = 0
     
     return render_to_response('BookingList.html', locals())
+
+def query_room_list(request):
+    return HttpResponse('error');
 
 def booking_room(request):
     post_data = request.GET
