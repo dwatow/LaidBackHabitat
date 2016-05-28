@@ -8,7 +8,7 @@
     <h1>今天是 {{curr_date}} </h1>
     <ul>
 	    {% for item in room_histogram.items %}
-            <li>房型 {{ item.0 }} 還有 {{ item.1 }} 間房 </li>
+            <li>{{ item.0 }}的房型，還有 {{ item.1 }} 間房 </li>
 	    {% endfor %}
     </ul>
 </body>

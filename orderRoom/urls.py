@@ -2,12 +2,9 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
-    url(r'^(?P<link_value>[0-9]+)/$', views.test, name='test0'),
-    url(r'^test/$', views.test, name='test'),
-    url(r'^test/testGet/$', views.testGet, name='testGet'),
     #query room
     url(r'^query_room/$', views.query_room, name='query_room'),
+    url(r'^query_room_list/$', views.query_room_list, name='query_room_list'),
     #order room
     url(r'^booking_room/$', views.booking_room, name='booking_room'),
     #checkout
