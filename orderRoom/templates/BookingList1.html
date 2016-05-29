@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{curr_date}}</title>
+    <meta charset='utf-8'>
+</head>
+<body>
+    <h1>今天是 {{curr_date}} </h1>
+    <ul>
+    {% for key, value in room_histogram.items %}
+        <li>{{ key }} 的房型，還有 {{ value }} 間房 </li>
+    {% endfor %}
+    </ul>
+</body>
+</html>

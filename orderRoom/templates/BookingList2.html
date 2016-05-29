@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{curr_date}}</title>
+    <meta charset='utf-8'>
+</head>
+<body>
+    {% for room_type, booking_month in histogram.items %}
+    <table border="1">
+        <tr>
+            <th>{{room_type}}</th>
+        </tr>
+        {% for month, booking_day in booking_month.items %}
+        <tr>
+            <td>{{month}}</td>
+        </tr>
+        <tr>
+            <td>
+                <table>
+                	<tr>
+			        	{% for day, booking_num in booking_day.items %}
+	                	<td>
+	                		{{day}}
+	                	</td>
+	                	{% endfor % }
+                	</tr>
+                	<tr>
+			        	{% for day, booking_num in booking_day.items %}
+	                	<td>
+	                		{{booking_num}}
+	                	</td>
+	                	{% endfor % }
+                	</tr>
+                </table>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endfor %}
+</body>
+</html>

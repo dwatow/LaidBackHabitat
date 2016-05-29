@@ -24,9 +24,9 @@ class MyDateTime:
         
     def comprise_everyday(self, bound_my_datetime):
         everyday_list=[]
-        for day in range(self.comprise_between(bound_my_datetime)):
-            curr_datetime = self.add_day(day)
-            everyday_list.append(curr_datetime)
+        for day_counter in range(self.comprise_between(bound_my_datetime)):
+            curr_datetime = self.add_day(day_counter)
+            everyday_list.append(curr_datetime.date())
         return everyday_list
 
     def __str__(self):
