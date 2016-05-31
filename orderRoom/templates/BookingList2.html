@@ -25,6 +25,8 @@
 	                	<td>
 	                		{{day}}
 	                	</td>
+                        {% empty %}
+                        <tr><td>日期設定有問題，請檢查日期是否正確</td></tr>
 	                	{% endfor %}
                 	</tr>
                 	<tr>
@@ -35,13 +37,19 @@
 	                	<td>
 	                		{{booking_num}}
 	                	</td>
+                        {% empty %}
+                        <tr><td>日期設定有問題，請檢查日期是否正確</td></tr>
 	                	{% endfor %}
                 	</tr>
                 </table>
             </td>
         </tr>
+        {% empty %}
+        <tr><td>日期設定有問題，請檢查日期是否正確</td></tr>
         {% endfor %}
     </table>
+    {% empty %}
+    <h1>尚未設定任何房型</h1>
     {% endfor %}
 </body>
 </html>
