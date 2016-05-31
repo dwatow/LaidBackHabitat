@@ -5,7 +5,7 @@ from . import models
 from .MyLib.MyDateTime import MyDateTime
 from django.core.exceptions import ObjectDoesNotExist
 
-class EmptyRoomTyppHistogram:
+class EmptyRoomTypeHistogram:
     def __total_room_num(self):
         target_room_type = models.RoomType.objects.filter(rt_name=self.room_type_name)
         return len(models.Room.objects.filter(room_type=target_room_type))
@@ -75,7 +75,7 @@ def query_room(request):
 
     histogram=[]
     for room_type in list(models.RoomType.objects.all()):
-        histogram_unit = EmptyRoomTyppHistogram(room_type.rt_name, curr_date)
+        histogram_unit = EmptyRoomTypeHistogram(room_type.rt_name, curr_date)
         histogram.append(histogram_unit)
 
     return render_to_response('BookingList1.html', locals())
@@ -87,7 +87,7 @@ def query_room_list(request):
 
     histogram = []
     for room_type in list(models.RoomType.objects.all()):
-        histogram_unit = EmptyRoomTyppHistogram(room_type.rt_name, from_date, to_date)
+        histogram_unit = EmptyRoomTypeHistogram(room_type.rt_name, from_date, to_date)
         histogram.append(histogram_unit)
 
     return render_to_response('BookingList2.html', locals())
