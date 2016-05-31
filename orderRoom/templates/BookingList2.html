@@ -5,31 +5,37 @@
     <meta charset='utf-8'>
 </head>
 <body>
-    {% for room_type, booking_month in histogram.items %}
-    <table border="1">
+    {% for histogram_unit in histogram %}
+    <table>
         <tr>
-            <th>{{room_type}}</th>
+            <th>{{histogram_unit.room_type_name}}</th>
         </tr>
-        {% for month, booking_day in booking_month.items %}
+        {% for month, booking in histogram_unit.histogram.items %}
         <tr>
-            <td>{{month}}</td>
+            <td>{{month}} 月份</td>
         </tr>
         <tr>
             <td>
-                <table>
+                <table border="1">
                 	<tr>
-			        	{% for day, booking_num in booking_day.items %}
+	                	<td>
+	                		日
+	                	</td>
+			        	{% for day, booking_num in booking.items %}
 	                	<td>
 	                		{{day}}
 	                	</td>
-	                	{% endfor % }
+	                	{% endfor %}
                 	</tr>
                 	<tr>
-			        	{% for day, booking_num in booking_day.items %}
+	                	<td>
+	                		空房數
+	                	</td>
+			        	{% for day, booking_num in booking.items %}
 	                	<td>
 	                		{{booking_num}}
 	                	</td>
-	                	{% endfor % }
+	                	{% endfor %}
                 	</tr>
                 </table>
             </td>
