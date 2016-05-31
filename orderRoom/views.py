@@ -12,47 +12,27 @@ class EmptyRoomTyppHistogram:
         self.to_date = MyDateTime(str_to_date)
 
         target_room_type = models.RoomType.objects.filter(rt_name=room_type_name)
-        empty_room_num = len(models.Room.objects.filter(room_type=target_room_type))
+        total_room_num = len(models.Room.objects.filter(room_type=target_room_type))
         
 
         #initial 
-        self.empty_room_type_histogram = {}
         range_days = self.from_date.comprise_everyday(self.to_date)
+
+        self.histogram = {}
         for everyday in range_days:
-            self.empty_room_type_histogram[str(everyday)] = empty_room_num
+            self.histogram[everyday.month] = {}
+
+        for everyday in range_days:
+            self.histogram[everyday.month][everyday.day] = total_room_num
 
         target_room_type = models.RoomType.objects.get(rt_name=room_type_name)
         target_rooms = models.Room.objects.filter(room_type=target_room_type)
-        range_date_booking = models.BookingRoom.objects.filter(room=target_rooms, over_night_date__range=(self.from_date.date_time(), self.to_date.date_time()))
+        range_date_curr_booking = models.BookingRoom.objects.filter(room=target_rooms, over_night_date__range=(self.from_date.date_time(), self.to_date.date_time()))
 
-        month_map = {}
-        for booking in range_date_booking:
-            curr_num = self.empty_room_type_histogram[str(booking.over_night_date.date())]
-            self.empty_room_type_histogram[booking.over_night_date] = curr_num - 1
-
-            month = booking.over_night_date.month
-            month_map[month] = {}
-
-        for booking in range_date_booking:
-            month = booking.over_night_date.month
-            day = booking.over_night_date.day
-            month_map[month][day] = self.empty_room_type_histogram[str(booking.over_night_date.date())]
-            print (month, day, self.empty_room_type_histogram[str(booking.over_night_date.date())])
-        # print ('month map')
-        # print (month_map)
-        # print ('day map')
-        # print (self.empty_room_type_histogram)
-
-        # for booking_date in range_date_booking:
-        #     datetime_map[booking_date.over_night_date] = 0
-        # for booking_date in range_date_booking:
-        #     day_num_list = []
-        #     day_num_list.append]
-        #     self.empty_room_type_histogram[today.month].append(today.day, empty_room_num - today_booking_num)
-
-    def histogram(self):
-        # {month:{day:num}}
-        return self.empty_room_type_histogram
+        for curr_booking in range_date_curr_booking:
+            month = curr_booking.over_night_date.month
+            day   = curr_booking.over_night_date.day
+            self.histogram[month][day] -= 1
 
 class BookingUnit:
     #room:yyyy_mm_dd:yyyy_mm_dd
@@ -100,14 +80,10 @@ def query_room_list(request):
     from_date = get_data['from']
     to_date = get_data['to']
 
-    room_type_name_list=[]
-    for room_type in models.RoomType.objects.all():
-        room_type_name_list.append(room_type.rt_name)
-
-    histogram = {}
-    for room_type_name in room_type_name_list:
-        histogram_unit = EmptyRoomTyppHistogram(room_type_name, from_date, to_date)
-        histogram[room_type_name] = histogram_unit.histogram()
+    histogram = []
+    for room_type in list(models.RoomType.objects.all()):
+        histogram_unit = EmptyRoomTyppHistogram(room_type.rt_name, from_date, to_date)
+        histogram.append(histogram_unit)
 
     return render_to_response('BookingList2.html', locals())
 
