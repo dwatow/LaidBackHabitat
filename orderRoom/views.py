@@ -4,6 +4,7 @@ from django.shortcuts import render, render_to_response, get_list_or_404
 from . import models
 from .MyLib.MyDateTime import MyDateTime
 from django.core.exceptions import ObjectDoesNotExist
+from django.views import generic
 
 class EmptyRoomTypeHistogram:
     def __total_room_num(self):
@@ -25,9 +26,9 @@ class EmptyRoomTypeHistogram:
 	        self.histogram = self.__total_room_num()
 
 	        for curr_booking in self.__curr_booking_room_list():
-	            histogram -= 1
-	            if histogram < 0:
-	                histogram = 0
+	            self.histogram -= 1
+	            if self.histogram < 0:
+	                self.histogram = 0
 
     	elif str_from_date and str_to_date:
             self.room_type_name = room_type_name
@@ -199,3 +200,8 @@ def order_room(request):
         return HttpResponse('您要兩個時都輸入，才能知道您訂房的狀況。')
         #return HttpResponseRedirect('/')
 '''
+
+class OrderView(generic.ListView):
+    model = models.Order
+    #template_name = 'order_detail.html'
+    #template_name = 'order_list.html'
