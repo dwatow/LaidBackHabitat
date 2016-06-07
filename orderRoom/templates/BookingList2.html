@@ -10,30 +10,30 @@
         <tr>
             <td>
                 <table border="1">
-                	<tr>
-	                	<td>
-	                		日
-	                	</td>
-			        	{% for day, booking_num in booking.items %}
-	                	<td>
-	                		{{day}}
-	                	</td>
+                    <tr>
+                        <td>
+                            日
+                        </td>
+                        {% for day, booking_num in booking.items %}
+                        <td>
+                            {{day}}
+                        </td>
                         {% empty %}
                         <tr><td>日期設定有問題，請檢查日期是否正確</td></tr>
-	                	{% endfor %}
-                	</tr>
-                	<tr>
-	                	<td>
-	                		空房數
-	                	</td>
-			        	{% for day, booking_num in booking.items %}
-	                	<td>
-	                		{{booking_num}}
-	                	</td>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>
+                            空房數
+                        </td>
+                        {% for day, booking_num in booking.items %}
+                        <td>
+                            {{booking_num}}
+                        </td>
                         {% empty %}
                         <tr><td>日期設定有問題，請檢查日期是否正確</td></tr>
-	                	{% endfor %}
-                	</tr>
+                        {% endfor %}
+                    </tr>
                 </table>
             </td>
         </tr>

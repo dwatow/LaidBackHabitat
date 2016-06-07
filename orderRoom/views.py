@@ -67,12 +67,12 @@ class BookingUnit:
         return self.from_datetime.comprise_everyday(self.to_datetime)
 
 
-
 # Create your views here.
-
-
+#
 def query_room(request):
-    curr_date = request.GET['today']
+    curr_date = request.GET.get('today', '')
+    if not curr_date:
+	    return render_to_response('BookingList1.html', locals())
 
     histogram=[]
     for room_type in list(models.RoomType.objects.all()):
@@ -92,6 +92,8 @@ def query_room_list(request):
         histogram.append(histogram_unit)
 
     return render_to_response('BookingList2.html', locals())
+
+
 
 def booking_room(request):
     post_data = request.GET
@@ -138,7 +140,7 @@ def booking_room(request):
         booking_list = post_data.getlist('booking[]')
         for str_room_from_to in booking_list:
             unit = BookingUnit(str_room_from_to)
-
+            #sel_room = get_object_or_404(Room, r_name=unit.room_name)
             try:
                 sel_room = models.Room.objects.filter(r_name=unit.room_name)[0]
             except (ObjectDoesNotExist, IndexError):
