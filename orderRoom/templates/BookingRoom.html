@@ -2,45 +2,77 @@
 <html>
 <head>
 	<title>訂房!!</title>
-    <style type="text/css">
-        #ui-datepicker-div a{
-            text-decoration: none;
-            padding: 4px;
-        }
-        #ui-datepicker-div{
-            font-family: monospace;
-        }
-        .ui-icon.ui-icon-circle-triangle-e{ color: #c0c0c0; }
-        .ui-icon.ui-icon-circle-triangle-w{ color: #c0c0c0; }
-    </style>
+	<style type="text/css">
+		#ui-datepicker-div a{
+			text-decoration: none;
+			padding: 4px;
+		}
+		#ui-datepicker-div{
+			font-family: monospace;
+		}
+		.ui-icon.ui-icon-circle-triangle-e{ color: #c0c0c0; }
+		.ui-icon.ui-icon-circle-triangle-w{ color: #c0c0c0; }
+	</style>
+	<script type="text/javascript">
+		function AddBooking(){
+			var from_date = document.getElementById('from_date').value;
+			var to_date = document.getElementById('to_date').value;
+			var room_type_id = document.getElementById('RoomType').value;
+			var room_type_name = document.getElementById('RoomType').selectedOptions[document.getElementById('RoomType').selectedIndex].innerHTML;
+
+			if (from_date==='' | to_date==='' | room_type_id===''){
+				return 0;
+			}
+
+
+			var new_booking_room = document.createElement('li');
+			var text = room_type_name + ":" + from_date + ":" + to_date;
+			var textnode = document.createTextNode(text);
+			new_booking_room.appendChild(textnode);
+			var atti_name = document.createAttribute("name");
+			atti_name.value = 'booking[]';
+			new_booking_room.setAttributeNode(atti_name);
+
+			document.getElementById("BookingRoomList").appendChild(new_booking_room);
+		}
+	</script>
+
 </head>
 <body>
-<form action="" method="post">
-    {{ booking_room_form.as_ul }}
-    <input type="text" id="datepicker1" name="from" placeholder="從幾月幾號">
-    <input type="text" id="datepicker2" name="to" placeholder="到幾月幾號">
-    {% if room_type_list %}
-    <select>
-    	{% for room_type in room_type_list %}
-    	<option value="{{room_type.id}}">{{room_type.rt_name}}</option>
-    	{% endfor %}
-    </select>
-    {% endif %}
-    <button onclick="orderRoom()">加</button>
-
-</form>
-{% load staticfiles %}
-<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
-<script src="{% static 'laid_back_habitat/jquery-ui/jquery-ui.min.js' %}"></script>
-<script type="text/javascript">
-    $(function() {
-        $("#datepicker1").datepicker({dateFormat:"yy-mm-dd",showMonthAfterYear:true}); 
-    });
-</script>
-<script type="text/javascript">
-    $(function() {
-        $("#datepicker2").datepicker({dateFormat:"yy-mm-dd",showMonthAfterYear:true}); 
-    });
-</script>
+	<form action="" method="post">
+		<ul>
+			{{ booking_room_form.as_ul }}
+			<li>
+				<input type="text" id="from_date" name="from" placeholder="從幾月幾號">
+				<input type="text" id="to_date" name="to" placeholder="到幾月幾號">
+				{% if room_type_list %}
+				<select id="RoomType" name='room_type'>
+					{% for room_type in room_type_list %}
+					{% if forloop.first %}
+					<option value="{{room_type.id}}" selected>{{room_type.rt_name}}</option>
+					{% else %}
+					<option value="{{room_type.id}}">{{room_type.rt_name}}</option>
+					{% endif %}
+					{% endfor %}
+				</select>
+				<input type="button" value="加" onclick="AddBooking()"/>
+				{% endif %}
+				<ul id="BookingRoomList"/>
+			</li>
+		</ul>	
+	</form>
+	{% load staticfiles %}
+	<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+	<script src="{% static 'laid_back_habitat/jquery-ui/jquery-ui.min.js' %}"></script>
+	<script type="text/javascript">
+		$(function() {
+			$("#from_date").datepicker({dateFormat:"yy-mm-dd",showMonthAfterYear:true}); 
+		});
+	</script>
+	<script type="text/javascript">
+		$(function() {
+			$("#to_date").datepicker({dateFormat:"yy-mm-dd",showMonthAfterYear:true}); 
+		});
+	</script>
 </body>
 </html>
