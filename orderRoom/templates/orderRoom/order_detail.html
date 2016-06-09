@@ -1,8 +1,8 @@
 
 <h1>摘要</h1>
-    訂房日期: {{order.o_date}}
-    訂單狀況: {{order.o_status}}
-    旅客: {{order.customer.c_name}}
+    訂房日期: {{order.o_date}}<br/>
+    訂單狀況: {{order.o_status}}<br/>
+    旅客: {{order.customer.c_name}}<br/>
 <h1>訂房明細</h1>
     <ul>
     {% for booking in order.bookingroom_set.all %}    

@@ -5,6 +5,7 @@ from . import models
 from .MyLib.MyDateTime import MyDateTime
 from django.core.exceptions import ObjectDoesNotExist
 from django.views import generic
+from collections import OrderedDict
 
 class EmptyRoomTypeHistogram:
     def __total_room_num(self):
@@ -17,41 +18,51 @@ class EmptyRoomTypeHistogram:
         return models.BookingRoom.objects.filter(room=target_rooms, over_night_date__range=(self.from_date.date_time(), self.to_date.date_time()))
 
     def __init__(self, room_type_name, str_from_date='', str_to_date=''):
-    	if str_from_date:
-	        self.room_type_name = room_type_name
-	        self.from_date = MyDateTime(str_from_date)
-	        self.to_date = MyDateTime(str_from_date)
+        self.limit_days = 100
+        if str_from_date and not str_to_date:
+            self.room_type_name = room_type_name
+            self.from_date = MyDateTime(str_from_date)
+            self.to_date = MyDateTime(str_from_date)
 
-	        self.histogram = 0
-	        self.histogram = self.__total_room_num()
+            self.histogram = 0
+            self.histogram = self.__total_room_num()
 
-	        for curr_booking in self.__curr_booking_room_list():
-	            self.histogram -= 1
-	            if self.histogram < 0:
-	                self.histogram = 0
+            for curr_booking in self.__curr_booking_room_list():
+                self.histogram -= 1
+                if self.histogram < 0:
+                    self.histogram = 0
 
-    	elif str_from_date and str_to_date:
+        elif str_from_date and str_to_date:
             self.room_type_name = room_type_name
             self.from_date = MyDateTime(str_from_date)
             self.to_date = MyDateTime(str_to_date)
+
+            self.curr_range_days = abs(self.from_date.comprise_between(self.to_date))
+            print ('目前天數', self.curr_range_days)
+            if self.curr_range_days > self.limit_days:
+                return
 
             #initial
             range_days = self.from_date.comprise_everyday(self.to_date)
 
             self.histogram = {}
             for everyday in range_days:
-                self.histogram[everyday.month] = {}
+                self.histogram[everyday.year] = {}
 
             for everyday in range_days:
-                self.histogram[everyday.month][everyday.day] = self.__total_room_num()
+                self.histogram[everyday.year][everyday.month] = {}
+
+            for everyday in range_days:
+                self.histogram[everyday.year][everyday.month][everyday.day] = self.__total_room_num()
 
             #set value
             for curr_booking in self.__curr_booking_room_list():
+                year  = curr_booking.over_night_date.year
                 month = curr_booking.over_night_date.month
                 day   = curr_booking.over_night_date.day
-                self.histogram[month][day] -= 1
-                if self.histogram[month][day] < 0:
-                       self.histogram[month][day] = 0
+                self.histogram[year][month][day] -= 1
+                if self.histogram[year][month][day] < 0:
+                       self.histogram[year][month][day] = 0
 
 class BookingUnit:
     #room:yyyy_mm_dd:yyyy_mm_dd
@@ -68,32 +79,28 @@ class BookingUnit:
 
 
 # Create your views here.
-#
 def query_room(request):
-    curr_date = request.GET.get('today', '')
-    if not curr_date:
-	    return render_to_response('BookingList1.html', locals())
+    today_date = request.GET.get('today', '')
+    from_date = request.GET.get('from', '')
+    to_date = request.GET.get('to', '')
 
-    histogram=[]
-    for room_type in list(models.RoomType.objects.all()):
-        histogram_unit = EmptyRoomTypeHistogram(room_type.rt_name, curr_date)
-        histogram.append(histogram_unit)
+    if today_date:
+        histogram=[]
+        for room_type in list(models.RoomType.objects.all()):
+            histogram_unit = EmptyRoomTypeHistogram(room_type.rt_name, curr_date)
+            histogram.append(histogram_unit)
 
-    return render_to_response('BookingList1.html', locals())
-
-def query_room_list(request):
-    get_data = request.GET;
-    from_date = get_data['from']
-    to_date = get_data['to']
-
-    histogram = []
-    for room_type in list(models.RoomType.objects.all()):
-        histogram_unit = EmptyRoomTypeHistogram(room_type.rt_name, from_date, to_date)
-        histogram.append(histogram_unit)
-
-    # EmptyRoomTyppHistogram(models.RoomType.objects.all()[0].rt_name, from_date, to_date)
-    return render_to_response('BookingList2.html', locals())
-
+        return render_to_response('BookingList1.html', locals())
+    elif from_date and to_date:
+        histogram = []
+        for room_type in list(models.RoomType.objects.all()):
+            histogram_unit = EmptyRoomTypeHistogram(room_type.rt_name, from_date, to_date)
+            histogram.append(histogram_unit)
+        print (histogram)
+        # EmptyRoomTyppHistogram(models.RoomType.objects.all()[0].rt_name, from_date, to_date)
+        return render_to_response('BookingList2.html', locals())
+    else:
+        return render_to_response('BookingList1.html', locals())
 
 
 def booking_room(request):
@@ -204,7 +211,7 @@ def order_room(request):
         #return HttpResponseRedirect('/')
 '''
 
-class OrderView(generic.ListView):
+class OrderView(generic.DetailView):
     model = models.Order
     #template_name = 'order_detail.html'
     #template_name = 'order_list.html'
