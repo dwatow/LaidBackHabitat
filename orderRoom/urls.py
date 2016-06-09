@@ -11,4 +11,6 @@ urlpatterns = [
     url(r'^checkout/$', views.checkout, name='checkout'),
     #checkin
     url(r'^checkin/$', views.checkin, name='checkin'),
+    #test View
+    url(r'^order/(?P<pk>[0-9]+)/$', views.OrderView.as_view(), name='order'),
 ]
