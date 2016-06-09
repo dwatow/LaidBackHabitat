@@ -1,0 +1,17 @@
+
+{% for order in order_list %}
+<h1>摘要</h1>
+    訂房日期: {{order.o_date}}<br/>
+    訂單狀況: {{order.o_status}}<br/>
+    旅客: {{order.customer.c_name}}<br/>
+<h1>訂房明細</h1>
+    <ul>
+    {% for booking in order.bookingroom_set.all %}    
+    <li>{{booking.over_night_date}}, {{booking.room.r_name}}, {{booking.room.room_type.rt_name}}</li>
+    {% empty %}
+    <h2>無訂房列表</h2>
+    {% endfor %}
+    </ul>
+{% empty %}
+<h1>無訂房資訊</h1>
+{% endfor %}

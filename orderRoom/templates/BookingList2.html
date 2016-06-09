@@ -1,41 +1,47 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>{{curr_date}}</title>
-    <meta charset='utf-8'>
-</head>
-<body>
+
     {% for histogram_unit in histogram %}
     <table>
         <tr>
             <th>{{histogram_unit.room_type_name}}</th>
         </tr>
-        {% for month, booking_day in histogram_unit.histogram.items %}
+        {% for month, booking in histogram_unit.histogram.items %}
         <tr>
             <td>{{month}} 月份</td>
         </tr>
         <tr>
             <td>
                 <table border="1">
-                	<tr>
-			        	{% for day, booking_num in booking_day.items %}
-	                	<td>
-	                		{{day}}
-	                	</td>
-	                	{% endfor %}
-                	</tr>
-                	<tr>
-			        	{% for day, booking_num in booking_day.items %}
-	                	<td>
-	                		{{booking_num}}
-	                	</td>
-	                	{% endfor %}
-                	</tr>
+                    <tr>
+                        <td>
+                            日
+                        </td>
+                        {% for day, booking_num in booking.items %}
+                        <td>
+                            {{day}}
+                        </td>
+                        {% empty %}
+                        <tr><td>日期設定有問題，請檢查日期是否正確</td></tr>
+                        {% endfor %}
+                    </tr>
+                    <tr>
+                        <td>
+                            空房數
+                        </td>
+                        {% for day, booking_num in booking.items %}
+                        <td>
+                            {{booking_num}}
+                        </td>
+                        {% empty %}
+                        <tr><td>日期設定有問題，請檢查日期是否正確</td></tr>
+                        {% endfor %}
+                    </tr>
                 </table>
             </td>
         </tr>
+        {% empty %}
+        <tr><td>日期設定有問題，請檢查日期是否正確</td></tr>
         {% endfor %}
     </table>
+    {% empty %}
+    <h1>尚未設定任何房型</h1>
     {% endfor %}
-</body>
-</html>
