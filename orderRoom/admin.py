@@ -28,7 +28,7 @@ class BookingRoomAdmin(admin.ModelAdmin):
 	date_hierarchy = 'over_night_date'
 
 class RoomTypeAdmin(admin.ModelAdmin):
-	list_display = ('rt_name', 'rt_money')
+	list_display = ('id', 'rt_name', 'rt_money')
 
 class RoomAdmin(admin.ModelAdmin):
 	list_display = ('r_name', 'room_type')

@@ -22,10 +22,9 @@
     <div align="right" id="reault_order">什麼時候過來玩？</div>
 
     <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
-    <script src="//code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
     
-    <script src="static/laid_back_habitat/jquery-ui/jquery-ui.min.js"></script>
-    <script src="static/laid_back_habitat/calTotalDays.js" %}"></script>
+    <script src="{% static 'laid_back_habitat/jquery-ui/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'laid_back_habitat/calTotalDays.js' %}"></script>
     <script type="text/javascript">
         $(function() {
             $("#datepicker1").datepicker({dateFormat:"yy-mm-dd",showMonthAfterYear:true}); 
