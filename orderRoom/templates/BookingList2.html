@@ -4,9 +4,13 @@
         <tr>
             <th>{{histogram_unit.room_type_name}}</th>
         </tr>
-        {% for month, booking in histogram_unit.histogram.items %}
+        {% for year, booking_dict in histogram_unit.histogram.items %}
         <tr>
-            <td>{{month}} 月份</td>
+            <td>{{year}} 年</td>
+        </tr>
+        {% for month, booking in booking_dict.items %}
+        <tr>
+            <td>{{month}} 月</td>
         </tr>
         <tr>
             <td>
@@ -16,7 +20,7 @@
                             日
                         </td>
                         {% for day, booking_num in booking.items %}
-                        <td>
+                        <td width="16">
                             {{day}}
                         </td>
                         {% empty %}
@@ -39,7 +43,10 @@
             </td>
         </tr>
         {% empty %}
-        <tr><td>日期設定有問題，請檢查日期是否正確</td></tr>
+        <tr><td>日期設定有問題，請檢查日期是否正確, 或者查詢天數超過 {{histogram_unit.limit_days}} 天</td></tr>
+        {% endfor %}
+        {% empty %}
+        <tr><td>日期設定有問題，請檢查日期是否正確, 或者查詢天數超過 {{histogram_unit.limit_days}} 天</td></tr>
         {% endfor %}
     </table>
     {% empty %}

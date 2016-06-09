@@ -4,7 +4,6 @@ from . import views
 urlpatterns = [
     #query room
     url(r'^query_room/$', views.query_room, name='query_room'),
-    url(r'^query_room_list/$', views.query_room_list, name='query_room_list'),
     #order room
     url(r'^booking_room/$', views.booking_room, name='booking_room'),
     #checkout
