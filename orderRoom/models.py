@@ -31,8 +31,8 @@ class Cleaner(models.Model):
         return "%s" % (self.cl_name)
 
 class RoomType(models.Model):
-    # rt_id = models. CharField(max_length=255)
-    rt_name = models.CharField(max_length=255, primary_key=True)
+    #rt_id = models. CharField(max_length=255, primary_key=True)
+    rt_name = models.CharField(max_length=255)
     rt_money = models.IntegerField(default=0)
 
     def __str__(self):              # __unicode__ on Python 2

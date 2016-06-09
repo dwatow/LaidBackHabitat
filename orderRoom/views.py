@@ -5,7 +5,9 @@ from . import models
 from .MyLib.MyDateTime import MyDateTime
 from django.core.exceptions import ObjectDoesNotExist
 from django.views import generic
-from collections import OrderedDict
+from . import forms
+import os
+import datetime
 
 class EmptyRoomTypeHistogram:
     def __total_room_num(self):
@@ -38,7 +40,6 @@ class EmptyRoomTypeHistogram:
             self.to_date = MyDateTime(str_to_date)
 
             self.curr_range_days = abs(self.from_date.comprise_between(self.to_date))
-            print ('目前天數', self.curr_range_days)
             if self.curr_range_days > self.limit_days:
                 return
 
@@ -105,16 +106,6 @@ def query_room(request):
 
 def booking_room(request):
     post_data = request.GET
-    '''
-    if 'booking_data' in post_data:
-        test = post_data['booking_data']
-        return HttpResponse(test);
-    #c_id = post_data['customer_id']
-    #customer = models.Customer.objects.filter(c_id=c_id)[0];
-
-    #return HttpResponse(str(original_from.date()) + ", " + str(total_day));
-    #return HttpResponse(str(original_from.date()) + ", " + str(next_from.date()));
-    '''
     if 'customer_id' and \
        'customer_name' and \
        'customer_phone' and \
@@ -161,7 +152,11 @@ def booking_room(request):
                     order=new_order, \
                     room=sel_room)
 
-    return HttpResponse(target_customer.c_name + 'is a customer<br />query any thing');
+
+    booking_room_form = forms.OrderForm()
+    room_type_list = models.RoomType.objects.all();
+    print(room_type_list)
+    return render_to_response('BookingRoom.html',locals())
     #else:
     #    raise Http404("data does not exist")
 
@@ -215,3 +210,118 @@ class OrderView(generic.DetailView):
     model = models.Order
     #template_name = 'order_detail.html'
     #template_name = 'order_list.html'
+
+
+def initial_models(request):
+    os.system('initial_models.bat') 
+    return HttpResponse('')
+
+def create_models_data(request):
+    if not models.Customer.objects.filter(c_id='X173918116'):
+        models.Customer.objects.create(c_id='X173918116', c_name='林伯彥', c_phone='0923415233', c_address='臺灣府城三界壇街')
+    if not models.Customer.objects.filter(c_id='X163416802'):
+        models.Customer.objects.create(c_id='X163416802', c_name='陳仙鶴', c_phone='0933958463', c_address='府城銀同里')
+    if not models.Customer.objects.filter(c_id='X163416801'):
+        models.Customer.objects.create(c_id='X163416801', c_name='陳復甫', c_phone='0933958463', c_address='明朝福建路漳州府龍溪')
+    if not models.Customer.objects.filter(c_id='X160016836'):
+        models.Customer.objects.create(c_id='X160016836', c_name='馮希範', c_phone='0939028276', c_address='泉州晉江縣')
+    if not models.Customer.objects.filter(c_id='X123654263'):
+        models.Customer.objects.create(c_id='X123654263', c_name='鄭賢之', c_phone='0987654322', c_address='大明泉州府南安縣')
+    if not models.Customer.objects.filter(c_id='X123456789'):
+        models.Customer.objects.create(c_id='X123456789', c_name='唐維卿', c_phone='0934564535', c_address='臺灣民主國臺南大天后宮')
+    
+    if not models.Employee.objects.filter(e_name='test employee'):
+        models.Employee.objects.create(e_name='test employee', e_phone='123435', e_address='test employee addr')
+
+    if not models.Cleaner.objects.filter(cl_name='test cleaner'):
+        models.Cleaner.objects.create(cl_name='test cleaner', cl_phone='123456', cl_address='test cleaner addr')
+
+    if not models.RoomType.objects.filter(rt_name='雙人和式套房'):
+        models.RoomType.objects.create(rt_name='雙人和式套房', rt_money='3600')
+    if not models.RoomType.objects.filter(rt_name='日式通鋪四人'):
+        models.RoomType.objects.create(rt_name='日式通鋪四人', rt_money='3400')
+    if not models.RoomType.objects.filter(rt_name='日式通鋪六人'):
+        models.RoomType.objects.create(rt_name='日式通鋪六人', rt_money='5100')
+    if not models.RoomType.objects.filter(rt_name='日式通鋪八人'):
+        models.RoomType.objects.create(rt_name='日式通鋪八人', rt_money='6800')
+    if not models.RoomType.objects.filter(rt_name='四人和式套房'):
+        models.RoomType.objects.create(rt_name='四人和式套房', rt_money='6000')
+
+    if not models.Room.objects.filter(r_name='room 9'):
+        models.Room.objects.create(r_name='room 9', room_type=models.RoomType.objects.get(rt_name='雙人和式套房'))
+    if not models.Room.objects.filter(r_name='room 8'):
+        models.Room.objects.create(r_name='room 8', room_type=models.RoomType.objects.get(rt_name='雙人和式套房'))
+    if not models.Room.objects.filter(r_name='room 7'):
+        models.Room.objects.create(r_name='room 7', room_type=models.RoomType.objects.get(rt_name='雙人和式套房'))
+    if not models.Room.objects.filter(r_name='room 6'):
+        models.Room.objects.create(r_name='room 6', room_type=models.RoomType.objects.get(rt_name='四人和式套房'))
+    if not models.Room.objects.filter(r_name='room 5'):
+        models.Room.objects.create(r_name='room 5', room_type=models.RoomType.objects.get(rt_name='四人和式套房'))
+    if not models.Room.objects.filter(r_name='room 4'):
+        models.Room.objects.create(r_name='room 4', room_type=models.RoomType.objects.get(rt_name='日式通鋪四人'))
+    if not models.Room.objects.filter(r_name='room 3'):
+        models.Room.objects.create(r_name='room 3', room_type=models.RoomType.objects.get(rt_name='日式通鋪四人'))
+    if not models.Room.objects.filter(r_name='room 2'):
+        models.Room.objects.create(r_name='room 2', room_type=models.RoomType.objects.get(rt_name='日式通鋪六人'))
+    if not models.Room.objects.filter(r_name='room 10'):
+        models.Room.objects.create(r_name='room 10', room_type=models.RoomType.objects.get(rt_name='雙人和式套房'))
+    if not models.Room.objects.filter(r_name='room 1'):
+        models.Room.objects.create(r_name='room 1', room_type=models.RoomType.objects.get(rt_name='日式通鋪八人'))
+
+    if not models.Order.objects.filter(o_date=datetime.datetime(2016, 5, 22), customer=models.Customer.objects.get(c_id='X163416801')):
+        models.Order.objects.create(o_status='Booking', o_date=datetime.datetime(2016, 5, 22), customer=models.Customer.objects.get(c_id='X163416801'))
+    if not models.Order.objects.filter(o_date=datetime.datetime(2016, 5, 22), customer=models.Customer.objects.get(c_id='X123654263')):
+        models.Order.objects.create(o_status='Booking', o_date=datetime.datetime(2016, 5, 21), customer=models.Customer.objects.get(c_id='X123654263'))
+    if not models.Order.objects.filter(o_date=datetime.datetime(2016, 5, 22), customer=models.Customer.objects.get(c_id='X163416802')):
+        models.Order.objects.create(o_status='Booking', o_date=datetime.datetime(2016, 5, 22), customer=models.Customer.objects.get(c_id='X163416802'))
+    if not models.Order.objects.filter(o_date=datetime.datetime(2016, 5, 22), customer=models.Customer.objects.get(c_id='X173918116')):
+        models.Order.objects.create(o_status='Booking', o_date=datetime.datetime(2016, 5, 22), customer=models.Customer.objects.get(c_id='X173918116'))
+
+    order1 = models.Order.objects.get(o_date=datetime.datetime(2016, 5, 22), customer=models.Customer.objects.get(c_id='X163416802'))   
+    room4 = models.Room.objects.get(r_name='room 4')
+    if not models.BookingRoom.objects.filter(order=order1, room=room4, over_night_date=datetime.datetime(2016, 6, 9)):
+        models.BookingRoom.objects.create(order=order1, room=room4, over_night_date=datetime.datetime(2016, 6, 9))
+    if not models.BookingRoom.objects.filter(order=order1, room=room4, over_night_date=datetime.datetime(2016, 6, 8)):
+        models.BookingRoom.objects.create(order=order1, room=room4, over_night_date=datetime.datetime(2016, 6, 8))
+    if not models.BookingRoom.objects.filter(order=order1, room=room4, over_night_date=datetime.datetime(2016, 6, 7)):
+        models.BookingRoom.objects.create(order=order1, room=room4, over_night_date=datetime.datetime(2016, 6, 7))
+    if not models.BookingRoom.objects.filter(order=order1, room=room4, over_night_date=datetime.datetime(2016, 6, 6)):
+        models.BookingRoom.objects.create(order=order1, room=room4, over_night_date=datetime.datetime(2016, 6, 6))
+    if not models.BookingRoom.objects.filter(order=order1, room=room4, over_night_date=datetime.datetime(2016, 6, 5)):
+        models.BookingRoom.objects.create(order=order1, room=room4, over_night_date=datetime.datetime(2016, 6, 5))
+    if not models.BookingRoom.objects.filter(order=order1, room=room4, over_night_date=datetime.datetime(2016, 6, 4)):
+        models.BookingRoom.objects.create(order=order1, room=room4, over_night_date=datetime.datetime(2016, 6, 4))
+    if not models.BookingRoom.objects.filter(order=order1, room=room4, over_night_date=datetime.datetime(2016, 6, 3)):
+        models.BookingRoom.objects.create(order=order1, room=room4, over_night_date=datetime.datetime(2016, 6, 3))
+    if not models.BookingRoom.objects.filter(order=order1, room=room4, over_night_date=datetime.datetime(2016, 6, 2)):
+        models.BookingRoom.objects.create(order=order1, room=room4, over_night_date=datetime.datetime(2016, 6, 2))
+
+    order2 = models.Order.objects.get(o_date=datetime.datetime(2016, 5, 22), customer=models.Customer.objects.get(c_id='X173918116'))
+    room3 = models.Room.objects.get(r_name='room 3')
+    if not models.BookingRoom.objects.filter(order=order2, room=room3, over_night_date=datetime.datetime(2016, 6, 9)):
+        models.BookingRoom.objects.create(order=order2, room=room3, over_night_date=datetime.datetime(2016, 6, 9))
+    if not models.BookingRoom.objects.filter(order=order2, room=room3, over_night_date=datetime.datetime(2016, 6, 8)):
+        models.BookingRoom.objects.create(order=order2, room=room3, over_night_date=datetime.datetime(2016, 6, 8))
+    if not models.BookingRoom.objects.filter(order=order2, room=room3, over_night_date=datetime.datetime(2016, 6, 7)):
+        models.BookingRoom.objects.create(order=order2, room=room3, over_night_date=datetime.datetime(2016, 6, 7))
+    if not models.BookingRoom.objects.filter(order=order2, room=room3, over_night_date=datetime.datetime(2016, 6, 6)):
+        models.BookingRoom.objects.create(order=order2, room=room3, over_night_date=datetime.datetime(2016, 6, 6))
+    if not models.BookingRoom.objects.filter(order=order2, room=room3, over_night_date=datetime.datetime(2016, 6, 5)):
+        models.BookingRoom.objects.create(order=order2, room=room3, over_night_date=datetime.datetime(2016, 6, 5))
+    if not models.BookingRoom.objects.filter(order=order2, room=room3, over_night_date=datetime.datetime(2016, 6, 4)):
+        models.BookingRoom.objects.create(order=order2, room=room3, over_night_date=datetime.datetime(2016, 6, 4))
+    if not models.BookingRoom.objects.filter(order=order2, room=room3, over_night_date=datetime.datetime(2016, 6, 3)):
+        models.BookingRoom.objects.create(order=order2, room=room3, over_night_date=datetime.datetime(2016, 6, 3))
+    if not models.BookingRoom.objects.filter(order=order2, room=room3, over_night_date=datetime.datetime(2016, 6, 2)):
+        models.BookingRoom.objects.create(order=order2, room=room3, over_night_date=datetime.datetime(2016, 6, 2))
+
+    if not models.Payment.objects.filter(p_money=999, p_account='12345678789', p_date=datetime.datetime(2016, 5, 16), order=models.Order.objects.get(o_date=datetime.datetime(2016, 5, 22), customer=models.Customer.objects.get(c_id='X163416802'))):
+        models.Payment.objects.create(p_money=999, p_account='12345678789', p_date=datetime.datetime(2016, 5, 16), order=models.Order.objects.get(o_date=datetime.datetime(2016, 5, 22), customer=models.Customer.objects.get(c_id='X163416802')))
+
+    if not models.Service.objects.filter(s_bike='1', s_breakfast='1', s_gym='1'):
+        models.Service.objects.create(s_bike='1', s_breakfast='1', s_gym='1')
+
+    if not models.CleanInfo.objects.filter(cl_date=datetime.datetime(2016, 5, 3), cleaner=models.Cleaner.objects.get(cl_name='test cleaner'), room=models.Room.objects.get(r_name='room 3')):
+        models.CleanInfo.objects.create(cl_date=datetime.datetime(2016, 5, 3), cleaner=models.Cleaner.objects.get(cl_name='test cleaner'), room=models.Room.objects.get(r_name='room 3'))
+
+    return HttpResponse('ok')
