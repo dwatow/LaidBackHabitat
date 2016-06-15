@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+	{% load staticfiles %}
     <title>訂房!!</title>
     <style type="text/css">
         #ui-datepicker-div a{
@@ -15,13 +16,7 @@
     </style>
 </head>
 <body>
-	{% load staticfiles %}
-    <input type="text" id="datepicker1" name="from" placeholder="從幾月幾號">
-    <input type="text" id="datepicker2" name="to" placeholder="到幾月幾號">
-    <button onclick="orderRoom()">訂房</button>
-
-    <div align="right" id="reault_order">什麼時候過來玩？</div>
-
+	{% include 'QueryEmptyRoomFrom.html' %}
     <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
 
     <script src="{% static 'laid_back_habitat/jquery-ui/jquery-ui.min.js' %}"></script>
