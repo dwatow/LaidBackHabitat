@@ -24,7 +24,6 @@
 				return 0;
 			}
 
-
 			var new_booking_room = document.createElement('li');
 			var text = room_type_name + ":" + from_date + ":" + to_date;
 			var textnode = document.createTextNode(text);
@@ -59,19 +58,19 @@
 				{% endif %}
 				<ul id="BookingRoomList"/>
 			</li>
-		</ul>	
+		</ul>
 	</form>
 	{% load staticfiles %}
 	<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
 	<script src="{% static 'laid_back_habitat/jquery-ui/jquery-ui.min.js' %}"></script>
 	<script type="text/javascript">
 		$(function() {
-			$("#from_date").datepicker({dateFormat:"yy-mm-dd",showMonthAfterYear:true}); 
+			$("#from_date").datepicker({dateFormat:"yy-mm-dd",showMonthAfterYear:true});
 		});
 	</script>
 	<script type="text/javascript">
 		$(function() {
-			$("#to_date").datepicker({dateFormat:"yy-mm-dd",showMonthAfterYear:true}); 
+			$("#to_date").datepicker({dateFormat:"yy-mm-dd",showMonthAfterYear:true});
 		});
 	</script>
 </body>
