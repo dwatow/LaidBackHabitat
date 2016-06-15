@@ -88,7 +88,7 @@ def query_room(request):
     if today_date:
         histogram=[]
         for room_type in list(models.RoomType.objects.all()):
-            histogram_unit = EmptyRoomTypeHistogram(room_type.rt_name, curr_date)
+            histogram_unit = EmptyRoomTypeHistogram(room_type.rt_name, today_date)
             histogram.append(histogram_unit)
 
         return render_to_response('BookingList1.html', locals())
@@ -213,7 +213,7 @@ class OrderView(generic.DetailView):
 
 
 def initial_models(request):
-    os.system('initial_models.bat') 
+    os.system('initial_models.bat')
     return HttpResponse('')
 
 def create_models_data(request):
@@ -229,7 +229,7 @@ def create_models_data(request):
         models.Customer.objects.create(c_id='X123654263', c_name='鄭賢之', c_phone='0987654322', c_address='大明泉州府南安縣')
     if not models.Customer.objects.filter(c_id='X123456789'):
         models.Customer.objects.create(c_id='X123456789', c_name='唐維卿', c_phone='0934564535', c_address='臺灣民主國臺南大天后宮')
-    
+
     if not models.Employee.objects.filter(e_name='test employee'):
         models.Employee.objects.create(e_name='test employee', e_phone='123435', e_address='test employee addr')
 
@@ -277,7 +277,7 @@ def create_models_data(request):
     if not models.Order.objects.filter(o_date=datetime.datetime(2016, 5, 22), customer=models.Customer.objects.get(c_id='X173918116')):
         models.Order.objects.create(o_status='Booking', o_date=datetime.datetime(2016, 5, 22), customer=models.Customer.objects.get(c_id='X173918116'))
 
-    order1 = models.Order.objects.get(o_date=datetime.datetime(2016, 5, 22), customer=models.Customer.objects.get(c_id='X163416802'))   
+    order1 = models.Order.objects.get(o_date=datetime.datetime(2016, 5, 22), customer=models.Customer.objects.get(c_id='X163416802'))
     room4 = models.Room.objects.get(r_name='room 4')
     if not models.BookingRoom.objects.filter(order=order1, room=room4, over_night_date=datetime.datetime(2016, 6, 9)):
         models.BookingRoom.objects.create(order=order1, room=room4, over_night_date=datetime.datetime(2016, 6, 9))
