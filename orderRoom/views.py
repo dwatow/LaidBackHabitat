@@ -17,7 +17,7 @@ class EmptyRoomTypeHistogram:
     def __curr_booking_room_list(self):
         target_room_type = models.RoomType.objects.get(rt_name=self.room_type_name)
         target_rooms = models.Room.objects.filter(room_type=target_room_type)
-        from_datetime = self.from_date.add_day(1)
+        from_datetime = self.from_date.date_time()
         to_datetime = self.to_date.date_time()
         return models.BookingRoom.objects.filter(room=target_rooms, over_night_date__range=(self.from_date.date_time(), self.to_date.date_time()))
 
@@ -62,8 +62,10 @@ class EmptyRoomTypeHistogram:
                 year  = curr_booking.over_night_date.year
                 month = curr_booking.over_night_date.month
                 day   = curr_booking.over_night_date.day
-                self.histogram[year][month][day] -= 1
-                if self.histogram[year][month][day] < 0:
+
+                if year in self.histogram and month in self.histogram[year] and day in self.histogram[year][month]:
+                    self.histogram[year][month][day] -= 1
+                    if self.histogram[year][month][day] < 0:
                        self.histogram[year][month][day] = 0
 class BookingUnit:
     #room:yyyy_mm_dd:yyyy_mm_dd
