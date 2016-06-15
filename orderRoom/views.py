@@ -18,14 +18,8 @@ class EmptyRoomTypeHistogram:
         target_room_type = models.RoomType.objects.get(rt_name=self.room_type_name)
         target_rooms = models.Room.objects.filter(room_type=target_room_type)
         from_datetime = self.from_date.add_day(1)
-        print(self.from_date.date_time())
-        print(from_datetime)
         to_datetime = self.to_date.date_time()
-        #return models.BookingRoom.objects.filter(room=target_rooms, over_night_date__range=(self.from_date.date_time(), self.to_date.date_time()))
-        queryset = models.BookingRoom.objects.filter(room=target_rooms, over_night_date__range=(from_datetime, to_datetime))
-        print (queryset.query)
-        return queryset
-
+        return models.BookingRoom.objects.filter(room=target_rooms, over_night_date__range=(self.from_date.date_time(), self.to_date.date_time()))
 
     def __init__(self, room_type_name, str_from_date='', str_to_date=''):
         self.limit_days = 100
@@ -103,7 +97,6 @@ def query_room(request):
         for room_type in list(models.RoomType.objects.all()):
             histogram_unit = EmptyRoomTypeHistogram(room_type.rt_name, from_date, to_date)
             histogram.append(histogram_unit)
-        print (histogram)
         # EmptyRoomTyppHistogram(models.RoomType.objects.all()[0].rt_name, from_date, to_date)
         return render_to_response('BookingList2.html', locals())
     else:
@@ -161,7 +154,6 @@ def booking_room(request):
 
     booking_room_form = forms.OrderForm()
     room_type_list = models.RoomType.objects.all();
-    print(room_type_list)
     return render_to_response('BookingRoom.html',locals())
     #else:
     #    raise Http404("data does not exist")
