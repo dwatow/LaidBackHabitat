@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	{% load staticfiles %}
+    {% load staticfiles %}
     <title>訂房!!</title>
     <style type="text/css">
         #ui-datepicker-div a{
@@ -16,7 +16,8 @@
     </style>
 </head>
 <body>
-	{% include 'QueryEmptyRoomFrom.html' %}
+    {% include 'QueryEmptyRoomFrom.html' %}
+    <h1>空房查詢明細</h1>
     {% for histogram_unit in histogram %}
     <table>
         <tr>
@@ -51,7 +52,11 @@
                         </td>
                         {% for day, booking_num in booking.items %}
                         <td>
+                            {% if booking_num %}
+                            <a href="{% url 'booking_room' %}">{{booking_num}}</a>
+                            {% else %}
                             {{booking_num}}
+                            {% endif %}
                         </td>
                         {% empty %}
                         <tr><td>日期設定有問題，請檢查日期是否正確</td></tr>
