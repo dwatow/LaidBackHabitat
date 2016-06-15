@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{{curr_date}}</title>
+    <title>{{today_date}}</title>
     <meta charset='utf-8'>
 </head>
 <body>
-    {% if curr_date %}
-    <h1>今天是 {{curr_date}} </h1>
+    {% if today_date %}
+    <h1>今天是 {{today_date}} </h1>
     <ul>
     {% for histogram_unit in histogram %}
         <li>{{ histogram_unit.room_type_name }} 的房型，還有 {{ histogram_unit.histogram }} 間房 </li>
