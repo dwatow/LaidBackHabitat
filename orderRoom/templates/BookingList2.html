@@ -1,4 +1,26 @@
-
+<!DOCTYPE html>
+<html>
+<head>
+	{% load staticfiles %}
+    <title>訂房!!</title>
+    <style type="text/css">
+        #ui-datepicker-div a{
+            text-decoration: none;
+            padding: 4px;
+        }
+        #ui-datepicker-div{
+            font-family: monospace;
+        }
+        .ui-icon.ui-icon-circle-triangle-e{ color: #c0c0c0; }
+        .ui-icon.ui-icon-circle-triangle-w{ color: #c0c0c0; }
+    </style>
+</head>
+<body>
+	<form action="/query_room/" method="get">
+	    <input type="text" id="datepicker1" name="from" placeholder="從幾月幾號" value={{from_date}}>
+	    <input type="text" id="datepicker2" name="to" placeholder="到幾月幾號" value={{to_date}}>
+	    <input type="submit" value="查詢空房">
+	</form>
     {% for histogram_unit in histogram %}
     <table>
         <tr>
@@ -52,3 +74,19 @@
     {% empty %}
     <h1>尚未設定任何房型</h1>
     {% endfor %}
+    <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+
+    <script src="{% static 'laid_back_habitat/jquery-ui/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'laid_back_habitat/calTotalDays.js' %}"></script>
+    <script type="text/javascript">
+        $(function() {
+            $("#datepicker1").datepicker({dateFormat:"yy-mm-dd",showMonthAfterYear:true});
+        });
+    </script>
+    <script type="text/javascript">
+        $(function() {
+            $("#datepicker2").datepicker({dateFormat:"yy-mm-dd",showMonthAfterYear:true});
+        });
+    </script>
+</body>
+</html>
