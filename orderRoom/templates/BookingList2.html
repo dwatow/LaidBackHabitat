@@ -61,10 +61,10 @@
                         {% for day, booking_num in booking.items %}
                         <td>
                             {% if booking_num %}
-                            <form id="form{{histogram_unit.room_type_name}}-{{year}}-{{month}}-{{day}}" method="get", action="{% url 'booking_room' %}">
+                            <form id="form{{histogram_unit.room_type_id}}-{{year}}-{{month}}-{{day}}" method="get", action="{% url 'booking_room' %}">
                             <input type="submit" name="ok" value="{{booking_num}}"></input>
                             <input type="hidden" name="booking_datetime" value="{{year}}-{{month}}-{{day}}"></input>
-                            <input type="hidden" name="booking_room_type" value="{{histogram_unit.room_type_name}}"></input>
+                            <input type="hidden" name="booking_room_type" value="{{histogram_unit.room_type_id}}"></input>
                             </form>
 
 

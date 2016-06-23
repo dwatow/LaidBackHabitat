@@ -21,10 +21,11 @@ class EmptyRoomTypeHistogram:
         to_datetime = self.to_date.date_time()
         return models.BookingRoom.objects.filter(room=target_rooms, over_night_date__range=(self.from_date.date_time(), self.to_date.date_time()))
 
-    def __init__(self, room_type_name, str_from_date='', str_to_date=''):
+    def __init__(self, room_type, str_from_date='', str_to_date=''):
         self.limit_days = 100
         if str_from_date and not str_to_date:
-            self.room_type_name = room_type_name
+            self.room_type_id = room_type.id
+            self.room_type_name = room_type.rt_name
             self.from_date = MyDateTime(str_from_date)
             self.to_date = MyDateTime(str_from_date)
 
@@ -37,7 +38,8 @@ class EmptyRoomTypeHistogram:
                     self.histogram = 0
 
         elif str_from_date and str_to_date:
-            self.room_type_name = room_type_name
+            self.room_type_id = room_type.id
+            self.room_type_name = room_type.rt_name
             self.from_date = MyDateTime(str_from_date)
             self.to_date = MyDateTime(str_to_date)
 
@@ -90,22 +92,28 @@ def query_room(request):
     if today_date:
         histogram=[]
         for room_type in list(models.RoomType.objects.all()):
-            histogram_unit = EmptyRoomTypeHistogram(room_type.rt_name, today_date)
+            histogram_unit = EmptyRoomTypeHistogram(room_type, today_date)
             histogram.append(histogram_unit)
 
         return render_to_response('BookingList1.html', locals())
     elif from_date and to_date:
         histogram = []
         for room_type in list(models.RoomType.objects.all()):
-            histogram_unit = EmptyRoomTypeHistogram(room_type.rt_name, from_date, to_date)
+            histogram_unit = EmptyRoomTypeHistogram(room_type, from_date, to_date)
             histogram.append(histogram_unit)
-        # EmptyRoomTyppHistogram(models.RoomType.objects.all()[0].rt_name, from_date, to_date)
+        # EmptyRoomTyppHistogram(models.RoomType.objects.all()[0], from_date, to_date)
         return render_to_response('BookingList2.html', locals())
     else:
         return render_to_response('BookingList1.html', locals())
 
 
 def booking_room(request):
+    get_data = request.GET
+    if get_data:
+        default_datetime = get_data.get('booking_datetime', '')
+        default_room_type = get_data.get('booking_room_type', '')
+
+
     post_data = request.GET
     if 'customer_id' and \
        'customer_name' and \
