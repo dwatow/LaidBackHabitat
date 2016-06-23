@@ -109,10 +109,13 @@ def query_room(request):
 
 def booking_room(request):
     get_data = request.GET
+    default_datetime = ''
+    default_room_type_id = ''
     if get_data:
         default_datetime = get_data.get('booking_datetime', '')
-        default_room_type = get_data.get('booking_room_type', '')
+        default_room_type_id = get_data.get('booking_room_type_id', '')
 
+    print ("default_room_type_id: ", default_room_type_id)
 
     post_data = request.GET
     if 'customer_id' and \
