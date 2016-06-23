@@ -64,10 +64,8 @@
                             <form id="form{{histogram_unit.room_type_id}}-{{year}}-{{month}}-{{day}}" method="get", action="{% url 'booking_room' %}">
                             <input type="submit" name="ok" value="{{booking_num}}"></input>
                             <input type="hidden" name="booking_datetime" value="{{year}}-{{month}}-{{day}}"></input>
-                            <input type="hidden" name="booking_room_type" value="{{histogram_unit.room_type_id}}"></input>
+                            <input type="hidden" name="booking_room_type_id" value="{{histogram_unit.room_type_id}}"></input>
                             </form>
-
-
                             {% else %}
                             {{booking_num}}
                             {% endif %}

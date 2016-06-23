@@ -45,15 +45,38 @@
 			<li><label for="id_customer_phone">聯絡電話:</label> <input id="id_customer_phone" maxlength="10" name="customer_phone" type="text" /></li>
 			<li><label for="id_customer_address">聯絡地址:</label> <input id="id_customer_address" maxlength="255" name="customer_address" type="text" /></li>
 			<li><label>選擇房型:</label>
+				{% if default_datetime %}
+				<input type="text" id="from_date" name="from" value="{{default_datetime}}">
+				<input type="text" id="to_date" name="to" value="{{default_datetime}}">
+				{% else %}
 				<input type="text" id="from_date" name="from" placeholder="從幾月幾號">
 				<input type="text" id="to_date" name="to" placeholder="到幾月幾號">
+				{% endif %}
+
+
 				{% if room_type_list %}
 				<select id="RoomType" name='room_type'>
 					{% for room_type in room_type_list %}
 					{% if forloop.first %}
-					<option value="{{room_type.id}}" selected>{{room_type.rt_name}}</option>
+						{% if default_room_type_id %}
+							{% if default_room_type_id == room_type.id %}
+							<option value="{{room_type.id}}" selected>{{room_type.rt_name}}</option>
+							{% else %}
+							<option value="{{room_type.id}}">{{room_type.rt_name}}</option>
+							{% endif %}
+						{% else %}
+							<option value="{{room_type.id}}" selected>{{room_type.rt_name}}</option>
+						{% endif %}
 					{% else %}
-					<option value="{{room_type.id}}">{{room_type.rt_name}}</option>
+						{% if default_room_type_id %}
+							{% if default_room_type_id == room_type.id %}
+							<option value="{{room_type.id}}" selected>{{room_type.rt_name}}</option>
+							{% else %}
+							<option value="{{room_type.id}}">{{room_type.rt_name}}</option>{{room_type.id}}{{default_room_type_id}}
+							{% endif %}
+						{% else %}
+							<option value="{{room_type.id}}">{{room_type.rt_name}}</option>
+						{% endif %}
 					{% endif %}
 					{% endfor %}
 				</select>
