@@ -40,8 +40,11 @@
 <body>
 	<form action="" method="post">
 		<ul>
-			{{ booking_room_form.as_ul }}
-			<li>
+			<li><label for="id_customer_id">身份證/護照 號碼:</label> <input id="id_customer_id" maxlength="10" name="customer_id" type="text" /></li>
+			<li><label for="id_customer_name">名字:</label> <input id="id_customer_name" maxlength="255" name="customer_name" type="text" /></li>
+			<li><label for="id_customer_phone">聯絡電話:</label> <input id="id_customer_phone" maxlength="10" name="customer_phone" type="text" /></li>
+			<li><label for="id_customer_address">聯絡地址:</label> <input id="id_customer_address" maxlength="255" name="customer_address" type="text" /></li>
+			<li><label>選擇房型:</label>
 				<input type="text" id="from_date" name="from" placeholder="從幾月幾號">
 				<input type="text" id="to_date" name="to" placeholder="到幾月幾號">
 				{% if room_type_list %}
