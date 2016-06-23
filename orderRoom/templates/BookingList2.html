@@ -14,6 +14,14 @@
         .ui-icon.ui-icon-circle-triangle-e{ color: #c0c0c0; }
         .ui-icon.ui-icon-circle-triangle-w{ color: #c0c0c0; }
     </style>
+    <script type="text/javascript">
+    function CallBookingRoomPage(button_id) {
+    	var target_id = "form" + button_id
+    	console.log(target_id)
+		//document.getElementById(target_id).submit();
+		//document.forms["form1"].elements[0].value = button_id
+    }
+    </script>
 </head>
 <body>
     {% include 'QueryEmptyRoomFrom.html' %}
@@ -53,7 +61,13 @@
                         {% for day, booking_num in booking.items %}
                         <td>
                             {% if booking_num %}
-                            <a href="{% url 'booking_room' %}">{{booking_num}}</a>
+                            <form id="form{{histogram_unit.room_type_name}}-{{year}}-{{month}}-{{day}}" method="get", action="{% url 'booking_room' %}">
+                            <input type="submit" name="ok" value="{{booking_num}}"></input>
+                            <input type="hidden" name="booking_datetime" value="{{year}}-{{month}}-{{day}}"></input>
+                            <input type="hidden" name="booking_room_type" value="{{histogram_unit.room_type_name}}"></input>
+                            </form>
+
+
                             {% else %}
                             {{booking_num}}
                             {% endif %}
