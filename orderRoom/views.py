@@ -115,8 +115,6 @@ def booking_room(request):
         default_datetime = get_data.get('booking_datetime', '')
         default_room_type_id = get_data.get('booking_room_type_id', '')
 
-    print ("default_room_type_id: ", default_room_type_id)
-
     post_data = request.GET
     if 'customer_id' and \
        'customer_name' and \
