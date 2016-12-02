@@ -1,7 +1,11 @@
 from django.conf.urls import url
+from django.contrib.auth.views import login, logout
 from . import views
 
 urlpatterns = [
+    #login/logout
+    url(r'^accounts/login/$', login),
+    url(r'^accounts/logout/$', logout),
     #query room
     url(r'^query_room/$', views.query_room, name='query_room'),
     #order room
@@ -13,6 +17,6 @@ urlpatterns = [
     #test View
     url(r'^order/(?P<pk>[0-9]+)/$', views.OrderView.as_view(), name='order'),
     #initial_models
-    url(r'^initialModels/', views.initial_models, name='initial_models'), 
-    url(r'^createModelsData/', views.create_models_data, name='create_models_data'), 
+    url(r'^initialModels/', views.initial_models, name='initial_models'),
+    url(r'^createModelsData/', views.create_models_data, name='create_models_data'),
 ]
