@@ -5,7 +5,7 @@ from . import models
 
 class CustomerAdmin(admin.ModelAdmin):
 	list_display = ('c_id', 'c_name', 'c_phone', 'c_address')
-	
+
 class EmployeeAdmin(admin.ModelAdmin):
 	list_display = ('id', 'e_name', 'e_phone', 'e_address')
 
