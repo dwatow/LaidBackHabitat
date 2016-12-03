@@ -1,3 +1,6 @@
+{% if request.user.is_authenticated %}
+    <div id="hello_user">{{request.user}}, 歡迎來玩</div>
+{% endif %}
 <form action="/query_room/" method="get">
     <input type="text" id="datepicker1" name="from" placeholder="從幾月幾號" value={{from_date}}>
     <input type="text" id="datepicker2" name="to" placeholder="到幾月幾號" value={{to_date}}>
