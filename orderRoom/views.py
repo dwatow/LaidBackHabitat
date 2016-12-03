@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, render_to_response, get_list_or_404
 from . import models
 from .MyLib.MyDateTime import MyDateTime
@@ -194,6 +194,13 @@ def checkin(request):
         id = request.GET['cleaner_id']
         obj = models.Cleaner.objects.filter(id=id)[0]
         return HttpResponse(obj.cl_name + 'is a cleaner<br />clear room be used checkin');
+
+def login(request):
+    return HttpResponseRedirect('/accounts/login/')
+
+def logout(request):
+    return HttpResponseRedirect('/accounts/logout/')
+
 
 
 

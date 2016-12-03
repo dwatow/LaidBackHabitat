@@ -7,6 +7,9 @@ urlpatterns = [
     url(r'^accounts/login/$', login),
     url(r'^accounts/logout/$', logout),
 
+    url(r'^login/$', views.login),
+    url(r'^logout/$', views.logout),
+
     #query room
     url(r'^query_room/$', views.query_room, name='query_room'),
     #order room
