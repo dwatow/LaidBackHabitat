@@ -1,103 +1,124 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>訂房!!</title>
-	<style type="text/css">
-		#ui-datepicker-div a{
-			text-decoration: none;
-			padding: 4px;
-		}
-		#ui-datepicker-div{
-			font-family: monospace;
-		}
-		.ui-icon.ui-icon-circle-triangle-e{ color: #c0c0c0; }
-		.ui-icon.ui-icon-circle-triangle-w{ color: #c0c0c0; }
-	</style>
-	<script type="text/javascript">
-		function AddBooking(){
-			var from_date = document.getElementById('from_date').value;
-			var to_date = document.getElementById('to_date').value;
-			var room_type_id = document.getElementById('RoomType').value;
-			var room_type_name = document.getElementById('RoomType').selectedOptions[document.getElementById('RoomType').selectedIndex].innerHTML;
-
-			if (from_date==='' | to_date==='' | room_type_id===''){
-				return 0;
+	<head>
+		<title>訂房!!</title>
+		<style type="text/css">
+			#ui-datepicker-div a {
+				text-decoration: none;
+				padding: 4px;
+			}
+			#ui-datepicker-div {
+				font-family: monospace;
+			}
+			.ui-icon.ui-icon-circle-triangle-e {
+				color: #c0c0c0;
+			}
+			.ui-icon.ui-icon-circle-triangle-w {
+				color: #c0c0c0;
 			}
 
-			var new_booking_room = document.createElement('li');
-			var text = room_type_name + ":" + from_date + ":" + to_date;
-			var textnode = document.createTextNode(text);
-			new_booking_room.appendChild(textnode);
-			var atti_name = document.createAttribute("name");
-			atti_name.value = 'booking[]';
-			new_booking_room.setAttributeNode(atti_name);
+		</style>
+		<script type="text/javascript">
+			function AddBooking() {
+				var from_date = document.getElementById('from_date').value;
+				var to_date = document.getElementById('to_date').value;
+				var room_type_id = document.getElementById('RoomType').value;
 
-			document.getElementById("BookingRoomList").appendChild(new_booking_room);
-		}
-	</script>
+				var room_type_name = document.getElementById('RoomType').selectedOptions[0].innerHTML;
 
-</head>
-<body>
-	<form action="" method="post">
-		<ul>
-			<li><label for="id_customer_id">身份證/護照 號碼:</label> <input id="id_customer_id" maxlength="10" name="customer_id" type="text" /></li>
-			<li><label for="id_customer_name">名字:</label> <input id="id_customer_name" maxlength="255" name="customer_name" type="text" /></li>
-			<li><label for="id_customer_phone">聯絡電話:</label> <input id="id_customer_phone" maxlength="10" name="customer_phone" type="text" /></li>
-			<li><label for="id_customer_address">聯絡地址:</label> <input id="id_customer_address" maxlength="255" name="customer_address" type="text" /></li>
-			<li><label>選擇房型:</label>
-				{% if default_datetime %}
-				<input type="text" id="from_date" name="from" value="{{default_datetime}}">
-				<input type="text" id="to_date" name="to" value="{{default_datetime}}">
-				{% else %}
-				<input type="text" id="from_date" name="from" placeholder="從幾月幾號">
-				<input type="text" id="to_date" name="to" placeholder="到幾月幾號">
-				{% endif %}
+				if (from_date === '' | to_date === '' | room_type_id === '') {
+					return 0;
+				}
 
+				var new_booking_room = document.createElement('li');
+				var text = room_type_name + ":" + from_date + ":" + to_date;
+				var textnode = document.createTextNode(text);
+				new_booking_room.appendChild(textnode);
+				var atti_name = document.createAttribute("name");
+				atti_name.value = 'booking[]';
+				new_booking_room.setAttributeNode(atti_name);
 
-				{% if room_type_list %}
-				<select id="RoomType" name='room_type'>
-					{% for room_type in room_type_list %}
-					{% if forloop.first %}
-						{% if default_room_type_id %}
-							{% if default_room_type_id == room_type.id %}
-							<option value="{{room_type.id}}" selected>{{room_type.rt_name}}</option>
-							{% else %}
-							<option value="{{room_type.id}}">{{room_type.rt_name}}</option>
-							{% endif %}
-						{% else %}
-							<option value="{{room_type.id}}" selected>{{room_type.rt_name}}</option>
-						{% endif %}
+				document.getElementById("BookingRoomList").appendChild(new_booking_room);
+			}
+		</script>
+
+	</head>
+	<body>
+		<form action="" method="post">
+			<ul>
+				<li>
+					<label for="id_customer_id">身份證/護照 號碼:</label>
+					<input id="id_customer_id" maxlength="10" name="customer_id" type="text"/>
+				</li>
+				<li>
+					<label for="id_customer_name">名字:</label>
+					{% if request.user.is_authenticated %}
+						<input id="id_customer_name" maxlength="255" name="customer_name" type="text" value="{{request.user}}"/>
 					{% else %}
-						{% if default_room_type_id %}
-							{% if default_room_type_id == room_type.id %}
-							<option value="{{room_type.id}}" selected>{{room_type.rt_name}}</option>
-							{% else %}
-							<option value="{{room_type.id}}">{{room_type.rt_name}}</option>{{room_type.id}}{{default_room_type_id}}
-							{% endif %}
-						{% else %}
-							<option value="{{room_type.id}}">{{room_type.rt_name}}</option>
-						{% endif %}
+						<input id="id_customer_name" maxlength="255" name="customer_name" type="text"/>
 					{% endif %}
-					{% endfor %}
-				</select>
-				<input type="button" value="加" onclick="AddBooking()"/>
-				{% endif %}
-				<ul id="BookingRoomList"/>
-			</li>
-		</ul>
-	</form>
-	{% load staticfiles %}
-	<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
-	<script src="{% static 'laid_back_habitat/jquery-ui/jquery-ui.min.js' %}"></script>
-	<script type="text/javascript">
-		$(function() {
-			$("#from_date").datepicker({dateFormat:"yy-mm-dd",showMonthAfterYear:true});
-		});
-	</script>
-	<script type="text/javascript">
-		$(function() {
-			$("#to_date").datepicker({dateFormat:"yy-mm-dd",showMonthAfterYear:true});
-		});
-	</script>
-</body>
+				</li>
+				<li>
+					<label for="id_customer_phone">聯絡電話:</label>
+					<input id="id_customer_phone" maxlength="10" name="customer_phone" type="text"/></li>
+				<li>
+					<label for="id_customer_address">聯絡地址:</label>
+					<input id="id_customer_address" maxlength="255" name="customer_address" type="text"/></li>
+				<li>
+					<label>選擇房型&日期:</label>
+					{% if room_type_list %}
+						<select id="RoomType" name='room_type'>
+							{% for room_type in room_type_list %}
+								{% if forloop.first %}
+									{% if default_room_type_id %}
+										{% if default_room_type_id == room_type.id %}
+											<option value="{{room_type.id}}" selected>{{room_type.rt_name}}</option>
+										{% else %}
+											<option value="{{room_type.id}}">{{room_type.rt_name}}</option>
+										{% endif %}
+									{% else %}
+										<option value="{{room_type.id}}" selected>{{room_type.rt_name}}</option>
+									{% endif %}
+								{% else %}
+									{% if default_room_type_id %}
+										{% if default_room_type_id == room_type.id %}
+											<option value="{{room_type.id}}" selected>{{room_type.rt_name}}</option>
+										{% else %}
+											<option value="{{room_type.id}}">{{room_type.rt_name}}</option>
+
+										{% endif %}
+									{% else %}
+										<option value="{{room_type.id}}">{{room_type.rt_name}}</option>
+									{% endif %}
+								{% endif %}
+							{% endfor %}
+						</select>
+					{% endif %}
+
+					{% if default_datetime %}
+						<input type="text" id="from_date" name="from" value="{{default_datetime}}">
+						<input type="text" id="to_date" name="to" value="{{default_datetime}}">
+					{% else %}
+						<input type="text" id="from_date" name="from" placeholder="從幾月幾號">
+						<input type="text" id="to_date" name="to" placeholder="到幾月幾號">
+					{% endif %}
+					<input type="button" value="加" onclick="AddBooking()"/>
+					<ul id="BookingRoomList"/>
+				</li>
+			</ul>
+		</form>
+		{% load staticfiles %}
+		<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+		<script src="{% static 'laid_back_habitat/jquery-ui/jquery-ui.min.js' %}"></script>
+		<script type="text/javascript">
+			$(function () {
+				$("#from_date").datepicker({dateFormat: "yy-mm-dd", showMonthAfterYear: true});
+			});
+		</script>
+		<script type="text/javascript">
+			$(function () {
+				$("#to_date").datepicker({dateFormat: "yy-mm-dd", showMonthAfterYear: true});
+			});
+		</script>
+	</body>
 </html>
